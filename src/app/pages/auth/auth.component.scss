@@ -1,0 +1,50 @@
+.auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  & > img {
+    height: 200px;
+  }
+
+  &__content {
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 300px;
+
+      & > p-floatlabel {
+        width: 100%;
+
+        &::ng-deep {
+          & > input {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    &__actions {
+      display: flex;
+      gap: 16px;
+
+      & > p-button {
+        width: 100%;
+
+        &::ng-deep {
+          & > button {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

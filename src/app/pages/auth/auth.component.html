@@ -1,0 +1,50 @@
+<div class="auth">
+  <img src="/images/container.svg" />
+  <p-card [header]="isLogin() ? 'Login' : 'Register'">
+    <div class="auth__content">
+      <div class="auth__content__form">
+        @if (!isLogin()) {
+        <p-floatlabel variant="on">
+          <input
+            [formControl]="authForm.controls.name"
+            pInputText
+            id="name"
+            autocomplete="off"
+          />
+          <label for="name">Name</label>
+        </p-floatlabel>
+        }
+        <p-floatlabel variant="on">
+          <input
+            [formControl]="authForm.controls.email"
+            pInputText
+            id="email"
+            autocomplete="off"
+          />
+          <label for="email">Email</label>
+        </p-floatlabel>
+        <p-floatlabel variant="on">
+          <input
+            [formControl]="authForm.controls.password"
+            type="password"
+            pInputText
+            id="password"
+            autocomplete="off"
+          />
+          <label for="password">Password</label>
+        </p-floatlabel>
+      </div>
+      <div class="auth__content__actions">
+        @if (!isLogin()) {
+        <p-button routerLink="/login" severity="secondary" label="Cancel" />
+        }
+        <p-button (click)="submit()" label="Submit" />
+      </div>
+      @if (isLogin()) {
+      <div class="auth__content__actions">
+        <p-button routerLink="/register" severity="info" label="Register" />
+      </div>
+      }
+    </div>
+  </p-card>
+</div>

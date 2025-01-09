@@ -11,3 +11,12 @@ export const authGuard: CanActivateFn = () => {
     map((token) => Boolean(token) || router.createUrlTree(['/login']))
   );
 };
+
+export const nonAuthGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return authService.token$.pipe(
+    map((token) => !token || router.createUrlTree(['/']))
+  );
+};
