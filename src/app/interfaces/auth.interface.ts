@@ -10,3 +10,9 @@ export interface RegisterRequestInterface extends LoginRequestInterface {
 export interface TokenInterface {
   token: string;
 }
+
+export interface UserInterface {
+  id: number;
+  name: string;
+  email: string;
+}

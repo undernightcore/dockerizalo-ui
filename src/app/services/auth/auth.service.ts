@@ -4,20 +4,22 @@ import {
   LoginRequestInterface,
   RegisterRequestInterface,
   TokenInterface,
+  UserInterface,
 } from '../../interfaces/auth.interface';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, shareReplay, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   #http = inject(HttpClient);
+
   #token = new BehaviorSubject<string | undefined>(
     localStorage.getItem('token') || undefined
   );
-
   token$ = this.#token.asObservable();
+  user$ = this.getUser().pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
   registerUser(user: RegisterRequestInterface) {
     return this.#http
@@ -37,6 +39,10 @@ export class AuthService {
           this.saveToken(token);
         })
       );
+  }
+
+  getUser() {
+    return this.#http.get<UserInterface>(`${environment.apiUrl}/auth/user`);
   }
 
   saveToken(token: string) {

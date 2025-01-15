@@ -1,0 +1,33 @@
+<div class="dashboard">
+  <div class="dashboard__actions">
+    <div class="dashboard__actions__group">
+      <img
+        class="dashboard__actions__group__logo"
+        src="/images/container.svg"
+        alt="dockerizalo logo"
+      />
+      <p-button
+        routerLink="/"
+        [severity]="route() === '/' ? 'primary' : 'secondary'"
+        icon="pi pi-home"
+      />
+    </div>
+    <div class="dashboard__actions__group">
+      <p-button
+        routerLink="/settings"
+        [severity]="route() === '/settings' ? 'primary' : 'secondary'"
+        icon="pi pi-cog"
+      />
+      @if (user()) {
+      <div class="dashboard__actions__group__spacer"></div>
+      <p-avatar
+        [label]="(user()?.name | slice : 0 : 1) ?? undefined"
+        shape="circle"
+      ></p-avatar>
+      }
+    </div>
+  </div>
+  <div class="dashboard__content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -10,11 +10,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { defer, map, shareReplay, switchMap, tap } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { defer, map, switchMap, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../services/auth/auth.service';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-auth',
