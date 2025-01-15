@@ -1,0 +1,30 @@
+.apps {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  & > h1 {
+    margin: 1.5rem 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+    overflow: auto;
+
+    &__item {
+      &__description {
+        margin: 0;
+      }
+    }
+  }
+
+  &__loading {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow: hidden;
+  }
+}
