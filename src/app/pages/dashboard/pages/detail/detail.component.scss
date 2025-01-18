@@ -1,0 +1,62 @@
+.detail {
+  display: flex;
+  height: 100%;
+
+  &__menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    gap: 1rem;
+    height: 100%;
+    width: 300px;
+    background-color: var(--p-content-background);
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      &__title {
+        display: flex;
+        gap: 8px;
+
+        & > h2 {
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      & > span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--p-button-text-secondary-color);
+      }
+    }
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      & > p-button {
+        &::ng-deep {
+          & > button {
+            justify-content: flex-start;
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    &__spacer {
+      width: 100%;
+      margin: 2px 0;
+      border: 1px solid white;
+    }
+  }
+}

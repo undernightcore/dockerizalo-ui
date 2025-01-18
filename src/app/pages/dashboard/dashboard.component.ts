@@ -1,17 +1,12 @@
 import { Component, inject } from '@angular/core';
-import {
-  ActivatedRoute,
-  Router,
-  RouterLink,
-  RouterOutlet,
-} from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../services/auth/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SlicePipe } from '@angular/common';
-import { distinctUntilChanged, map, tap } from 'rxjs';
+import { distinctUntilChanged, map, startWith, tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -33,6 +28,7 @@ export class DashboardComponent {
   user = toSignal(this.#authService.user$);
   route = toSignal(
     this.#router.events.pipe(
+      startWith(true),
       map(() => this.#router.url),
       distinctUntilChanged()
     )

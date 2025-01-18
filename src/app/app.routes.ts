@@ -4,6 +4,7 @@ import { authGuard, nonAuthGuard } from './guards/auth.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SettingsComponent } from './pages/dashboard/pages/settings/settings.component';
 import { AppsComponent } from './pages/dashboard/pages/apps/apps.component';
+import { DetailComponent } from './pages/dashboard/pages/detail/detail.component';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,10 @@ export const routes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent,
+      },
+      {
+        path: 'apps/:appId',
+        component: DetailComponent,
       },
     ],
     canActivate: [authGuard],

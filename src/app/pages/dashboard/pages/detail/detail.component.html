@@ -1,0 +1,47 @@
+<div class="detail">
+  <div class="detail__menu">
+    <div>
+      <div class="detail__menu__info">
+        @if (app()) {
+        <div class="detail__menu__info__title">
+          <h2>{{ app()?.name }}</h2>
+          <p-badge
+            [severity]="app()?.status === 'running' ? 'success' : 'danger'"
+          />
+        </div>
+        <span>{{ app()?.description ?? "-" }}</span>
+        } @else {
+        <p-skeleton height="29.5px"></p-skeleton>
+        <p-skeleton height="19.5px"></p-skeleton>
+        }
+      </div>
+      <div class="detail__menu__spacer"></div>
+      <p-button label="Home" severity="secondary" icon="pi pi-home"></p-button>
+      <p-button
+        label="Builds"
+        severity="secondary"
+        icon="pi pi-hammer"
+      ></p-button>
+      <p-button
+        label="Volumes"
+        severity="secondary"
+        icon="pi pi-box"
+      ></p-button>
+      <p-button label="Ports" severity="secondary" icon="pi pi-link"></p-button>
+      <p-button
+        label="Variables"
+        severity="secondary"
+        icon="pi pi-key"
+      ></p-button>
+    </div>
+    <div>
+      <div class="detail__menu__spacer"></div>
+      <p-button
+        label="Dangerous zone"
+        severity="danger"
+        icon="pi pi-trash"
+      ></p-button>
+    </div>
+  </div>
+  <div class="detail__content"></div>
+</div>

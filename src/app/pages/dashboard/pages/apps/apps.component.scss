@@ -3,10 +3,6 @@
   flex-direction: column;
   height: 100%;
 
-  & > h1 {
-    margin: 1.5rem 0;
-  }
-
   &__list {
     display: flex;
     flex-direction: column;
@@ -15,6 +11,16 @@
     overflow: auto;
 
     &__item {
+      cursor: pointer;
+      user-select: none;
+
+      &::ng-deep {
+        .p-card-title {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+      }
       &__description {
         margin: 0;
       }
