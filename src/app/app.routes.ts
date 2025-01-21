@@ -5,6 +5,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SettingsComponent } from './pages/dashboard/pages/settings/settings.component';
 import { AppsComponent } from './pages/dashboard/pages/apps/apps.component';
 import { DetailComponent } from './pages/dashboard/pages/detail/detail.component';
+import { HomeComponent } from './pages/dashboard/pages/detail/pages/home/home.component';
 
 export const routes: Routes = [
   {
@@ -22,6 +23,7 @@ export const routes: Routes = [
       {
         path: 'apps/:appId',
         component: DetailComponent,
+        children: [{ path: '', component: HomeComponent }],
       },
     ],
     canActivate: [authGuard],

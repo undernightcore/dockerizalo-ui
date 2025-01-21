@@ -10,27 +10,61 @@
           />
         </div>
         <span>{{ app()?.description ?? "-" }}</span>
+        <div class="detail__menu__info__actions">
+          @if (app()?.status === 'running') {
+          <p-button
+            [disabled]="waiting()"
+            (click)="stopApp()"
+            severity="secondary"
+            icon="pi pi-pause"
+          />
+          } @else {
+          <p-button
+            [disabled]="waiting()"
+            (click)="startApp()"
+            severity="secondary"
+            icon="pi pi-play"
+          />
+          }
+          <p-button
+            [disabled]="waiting()"
+            severity="secondary"
+            icon="pi pi-hammer"
+          />
+        </div>
         } @else {
-        <p-skeleton height="29.5px"></p-skeleton>
+        <p-skeleton height="24px"></p-skeleton>
         <p-skeleton height="19.5px"></p-skeleton>
+        <div class="detail__menu__info__actions">
+          <p-skeleton height="34px" width="40px"></p-skeleton>
+          <p-skeleton height="34px" width="40px"></p-skeleton>
+        </div>
         }
       </div>
       <div class="detail__menu__spacer"></div>
-      <p-button label="Home" severity="secondary" icon="pi pi-home"></p-button>
+      <p-button
+        label="Home"
+        [severity]="route() === undefined ? 'primary' : 'secondary'"
+        icon="pi pi-home"
+      ></p-button>
       <p-button
         label="Builds"
-        severity="secondary"
+        [severity]="route() === 'builds' ? 'primary' : 'secondary'"
         icon="pi pi-hammer"
       ></p-button>
       <p-button
         label="Volumes"
-        severity="secondary"
+        [severity]="route() === 'volumes' ? 'primary' : 'secondary'"
         icon="pi pi-box"
       ></p-button>
-      <p-button label="Ports" severity="secondary" icon="pi pi-link"></p-button>
+      <p-button
+        label="Ports"
+        [severity]="route() === 'ports' ? 'primary' : 'secondary'"
+        icon="pi pi-link"
+      ></p-button>
       <p-button
         label="Variables"
-        severity="secondary"
+        [severity]="route() === 'variables' ? 'primary' : 'secondary'"
         icon="pi pi-key"
       ></p-button>
     </div>
@@ -43,5 +77,7 @@
       ></p-button>
     </div>
   </div>
-  <div class="detail__content"></div>
+  <div class="detail__content">
+    <router-outlet></router-outlet>
+  </div>
 </div>

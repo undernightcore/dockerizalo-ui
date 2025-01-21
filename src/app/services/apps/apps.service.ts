@@ -4,6 +4,8 @@ import { environment } from '../../../environments/environment';
 import { AppInterface } from '../../interfaces/app.interface';
 import { SseClient } from 'ngx-sse-client';
 import { map } from 'rxjs';
+import { MessageInterface } from '../../interfaces/message.interface';
+import { BuildInterface } from '../../interfaces/build.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +25,35 @@ export class AppsService {
         responseType: 'text',
       })
       .pipe(map((json) => JSON.parse(json) as AppInterface));
+  }
+
+  getAppLogs(appId: string) {
+    return this.#sse
+      .stream(`${environment.apiUrl}/apps/${appId}/logs/realtime`, {
+        keepAlive: true,
+        responseType: 'text',
+      })
+      .pipe(map((json) => JSON.parse(json) as string));
+  }
+
+  updateApp(appId: string, app: Omit<AppInterface, 'id' | 'status'>) {
+    return this.#http.put<AppInterface>(
+      `${environment.apiUrl}/apps/${appId}`,
+      app
+    );
+  }
+
+  startApp(appId: string) {
+    return this.#http.post<MessageInterface | BuildInterface>(
+      `${environment.apiUrl}/apps/${appId}/start`,
+      {}
+    );
+  }
+
+  stopApp(appId: string) {
+    return this.#http.post<MessageInterface>(
+      `${environment.apiUrl}/apps/${appId}/stop`,
+      {}
+    );
   }
 }

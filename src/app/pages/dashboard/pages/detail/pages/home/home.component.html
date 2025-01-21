@@ -1,0 +1,67 @@
+<div class="home">
+  <h1>Home</h1>
+  <div class="home__content">
+    @if (app()?.status === 'running') {
+    <p-message severity="warn"
+      >Main settings can't be changed while the app is running</p-message
+    >
+    } @if (app()) {
+    <p-panel header="Main settings">
+      <div class="home__content__panel">
+        <div class="home__content__panel__form">
+          <div>
+            <label for="name">Name</label>
+            <input [formControl]="appForm.controls.name" pInputText id="name" />
+          </div>
+          <div>
+            <label for="description">Description</label>
+            <input
+              [formControl]="appForm.controls.description"
+              pInputText
+              id="description"
+            />
+          </div>
+          <div>
+            <label for="repository">Repository</label>
+            <input
+              [formControl]="appForm.controls.repository"
+              pInputText
+              id="repository"
+            />
+          </div>
+          <div>
+            <label for="branch">Branch</label>
+            <input
+              [formControl]="appForm.controls.branch"
+              pInputText
+              id="branch"
+            />
+          </div>
+        </div>
+        <div class="home__content__panel__actions">
+          <p-button
+            (click)="saveApp()"
+            [disabled]="
+              !appForm.valid ||
+              app()?.status === 'running' ||
+              saving() ||
+              !unsaved()
+            "
+            >Save</p-button
+          >
+        </div>
+      </div>
+    </p-panel>
+    } @else {
+    <p-skeleton height="190.5px"></p-skeleton>
+    } @if (logs()) {
+    <p-panel header="Logs">
+      <div class="home__content__logs">
+        <pre>{{ logs() }}</pre>
+      </div>
+    </p-panel>
+    } @else {
+    <p-skeleton height="372px"></p-skeleton>
+    }
+  </div>
+</div>
