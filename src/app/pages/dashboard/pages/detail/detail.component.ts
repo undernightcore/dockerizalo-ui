@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { distinctUntilChanged, filter, map, startWith, tap } from 'rxjs';
@@ -18,6 +18,7 @@ import { MessageInterface } from '../../../../interfaces/message.interface';
     SkeletonModule,
     BadgeModule,
     RouterOutlet,
+    RouterLink,
   ],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.scss',

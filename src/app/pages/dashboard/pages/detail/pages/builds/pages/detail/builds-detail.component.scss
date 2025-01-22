@@ -1,0 +1,12 @@
+.detail {
+  padding: 24px;
+  border-radius: 1rem;
+  background-color: black;
+  height: 100%;
+  overflow: auto;
+
+  & > pre {
+    color: whitesmoke;
+    margin: 0;
+  }
+}

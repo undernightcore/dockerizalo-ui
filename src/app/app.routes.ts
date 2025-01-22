@@ -6,6 +6,8 @@ import { SettingsComponent } from './pages/dashboard/pages/settings/settings.com
 import { AppsComponent } from './pages/dashboard/pages/apps/apps.component';
 import { DetailComponent } from './pages/dashboard/pages/detail/detail.component';
 import { HomeComponent } from './pages/dashboard/pages/detail/pages/home/home.component';
+import { BuildsComponent } from './pages/dashboard/pages/detail/pages/builds/builds.component';
+import { BuildsDetailComponent } from './pages/dashboard/pages/detail/pages/builds/pages/detail/builds-detail.component';
 
 export const routes: Routes = [
   {
@@ -23,7 +25,17 @@ export const routes: Routes = [
       {
         path: 'apps/:appId',
         component: DetailComponent,
-        children: [{ path: '', component: HomeComponent }],
+        children: [
+          { path: '', component: HomeComponent },
+          {
+            path: 'builds',
+            component: BuildsComponent,
+            children: [
+              { path: '', component: BuildsDetailComponent },
+              { path: ':buildId', component: BuildsDetailComponent },
+            ],
+          },
+        ],
       },
     ],
     canActivate: [authGuard],

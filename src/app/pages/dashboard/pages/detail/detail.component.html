@@ -43,26 +43,31 @@
       </div>
       <div class="detail__menu__spacer"></div>
       <p-button
+        [routerLink]="['/apps', app()?.id]"
         label="Home"
         [severity]="route() === undefined ? 'primary' : 'secondary'"
         icon="pi pi-home"
       ></p-button>
       <p-button
+        [routerLink]="['/apps', app()?.id, 'builds']"
         label="Builds"
         [severity]="route() === 'builds' ? 'primary' : 'secondary'"
         icon="pi pi-hammer"
       ></p-button>
       <p-button
+        [routerLink]="['/apps', app()?.id, 'volumes']"
         label="Volumes"
         [severity]="route() === 'volumes' ? 'primary' : 'secondary'"
         icon="pi pi-box"
       ></p-button>
       <p-button
+        [routerLink]="['/apps', app()?.id, 'ports']"
         label="Ports"
         [severity]="route() === 'ports' ? 'primary' : 'secondary'"
         icon="pi pi-link"
       ></p-button>
       <p-button
+        [routerLink]="['/apps', app()?.id, 'variables']"
         label="Variables"
         [severity]="route() === 'variables' ? 'primary' : 'secondary'"
         icon="pi pi-key"

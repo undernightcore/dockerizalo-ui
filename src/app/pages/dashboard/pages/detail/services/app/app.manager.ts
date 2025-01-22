@@ -15,6 +15,8 @@ import {
 } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AppInterface } from '../../../../../../interfaces/app.interface';
+import { BuildsService } from '../../../../../../services/builds/builds.service';
+import { terminalCodesToHtml } from 'terminal-codes-to-html';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,7 @@ import { AppInterface } from '../../../../../../interfaces/app.interface';
 export class AppManagerService {
   #router = inject(Router);
   #appsService = inject(AppsService);
+  #buildsService = inject(BuildsService);
 
   #appId = this.#router.events.pipe(
     startWith(true),
@@ -43,6 +46,31 @@ export class AppManagerService {
             .getAppLogs(app.id)
             .pipe(scan((acc, message) => acc + message, ''))
         : of('No logs.')
+    ),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
+  builds$ = this.#appId.pipe(
+    switchMap((appId) => this.#buildsService.getBuilds(appId)),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
+  buildId$ = this.#router.events.pipe(
+    startWith(true),
+    map(() => this.#router.url.split('/').at(4)),
+    distinctUntilChanged(),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
+  buildLogs$ = this.#appId.pipe(
+    switchMap((appId) =>
+      this.buildId$.pipe(
+        switchMap((buildId) =>
+          buildId
+            ? this.#buildsService.getBuildLogs(appId, buildId)
+            : of(undefined)
+        )
+      )
     ),
     shareReplay({ refCount: true, bufferSize: 1 })
   );

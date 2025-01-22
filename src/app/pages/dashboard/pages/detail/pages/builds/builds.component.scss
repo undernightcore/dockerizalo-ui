@@ -1,0 +1,59 @@
+.builds {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__content {
+    display: flex;
+    gap: 1.5rem;
+    height: 100%;
+    overflow: hidden;
+
+    & > div {
+      height: 100%;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      background-color: var(--p-content-background);
+      overflow: auto;
+    }
+
+    &__logs {
+      width: 100%;
+    }
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: auto;
+      min-width: 350px;
+      max-width: 350px;
+
+      & > p-button {
+        width: 100%;
+
+        &::ng-deep {
+          & > button {
+            width: 100%;
+          }
+        }
+      }
+
+      &__item {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+
+        &__status {
+          &::ng-deep {
+            button {
+              font-size: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

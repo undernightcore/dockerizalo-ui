@@ -1,0 +1,34 @@
+<div class="builds">
+  <h1>Builds</h1>
+  <div class="builds__content">
+    <div class="builds__content__logs">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="builds__content__list">
+      @for (build of builds(); track build.id) {
+      <p-button
+        [routerLink]="['/apps', app()?.id, 'builds', build.id]"
+        [severity]="selectedBuild() === build.id ? 'primary' : 'secondary'"
+      >
+        <div class="builds__content__list__item">
+          <i class="pi pi-hammer"></i>
+          <span>{{ build.createdAt | date : "dd/MM/yyyy HH:mm" }}</span>
+          <p-button
+            [severity]="
+              build.status === 'SUCCESS'
+                ? 'success'
+                : build.status === 'FAILED'
+                ? 'danger'
+                : 'warn'
+            "
+            size="small"
+            [rounded]="true"
+            class="builds__content__list__item__status"
+            >{{ build.status }}</p-button
+          >
+        </div>
+      </p-button>
+      }
+    </div>
+  </div>
+</div>
