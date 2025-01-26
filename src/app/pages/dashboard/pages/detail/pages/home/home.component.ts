@@ -1,4 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  inject,
+  signal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,12 +14,14 @@ import {
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { AppManagerService } from '../../services/app/app.manager';
-import { combineLatest, distinctUntilChanged, map, startWith, tap } from 'rxjs';
+import { combineLatest, filter, map, startWith, switchMap, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MessageModule } from 'primeng/message';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { MessageService } from 'primeng/api';
+import { CheckboxModule } from 'primeng/checkbox';
+import { elementReady } from '../../../../../../utils/dom.utils';
 
 @Component({
   selector: 'app-home',
@@ -24,11 +32,14 @@ import { MessageService } from 'primeng/api';
     MessageModule,
     ButtonModule,
     SkeletonModule,
+    CheckboxModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
+  @ViewChild('logElement') private logElement?: ElementRef<HTMLDivElement>;
+
   #appManager = inject(AppManagerService);
   #toastService = inject(MessageService);
 
@@ -39,8 +50,24 @@ export class HomeComponent {
     branch: new FormControl<string | null>(null, [Validators.required]),
   });
 
+  followForm = new FormControl(true);
+
   app = toSignal(this.#appManager.app$);
-  logs = toSignal(this.#appManager.logs$);
+  logs = toSignal(
+    this.#appManager.logs$.pipe(
+      tap(
+        () =>
+          this.followForm.value &&
+          setTimeout(
+            () =>
+              this.logElement?.nativeElement.scroll({
+                top: this.logElement.nativeElement.scrollHeight,
+              }),
+            100
+          )
+      )
+    )
+  );
 
   saving = signal(false);
   unsaved = toSignal(
@@ -68,6 +95,22 @@ export class HomeComponent {
         app.status === 'running'
           ? this.appForm.disable()
           : this.appForm.enable()
+      )
+    )
+  );
+
+  _scrollToBottomIfFollowEnabledEffect = toSignal(
+    elementReady('.home__content__logs').pipe(
+      switchMap(() =>
+        this.followForm.valueChanges.pipe(
+          startWith(this.followForm.value),
+          filter((checked) => Boolean(checked)),
+          tap(() =>
+            this.logElement?.nativeElement.scroll({
+              top: this.logElement.nativeElement.scrollHeight,
+            })
+          )
+        )
       )
     )
   );

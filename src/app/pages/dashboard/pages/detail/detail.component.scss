@@ -33,6 +33,11 @@
         }
       }
 
+      &__status {
+        display: flex;
+        gap: 8px;
+      }
+
       &__actions {
         display: flex;
         gap: 12px;

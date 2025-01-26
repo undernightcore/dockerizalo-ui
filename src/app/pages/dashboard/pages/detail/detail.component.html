@@ -5,9 +5,15 @@
         @if (app()) {
         <div class="detail__menu__info__title">
           <h2>{{ app()?.name }}</h2>
+        </div>
+        <div class="detail__menu__info__status">
           <p-badge
+            [value]="app()?.status === 'running' ? 'Running' : 'Stopped'"
             [severity]="app()?.status === 'running' ? 'success' : 'danger'"
           />
+          @if (building()) {
+          <p-badge [value]="'Building'" [severity]="'warn'" />
+          }
         </div>
         <span>{{ app()?.description ?? "-" }}</span>
         <div class="detail__menu__info__actions">
@@ -28,6 +34,7 @@
           }
           <p-button
             [disabled]="waiting()"
+            (click)="createBuild()"
             severity="secondary"
             icon="pi pi-hammer"
           />

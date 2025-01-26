@@ -36,12 +36,20 @@
       }
     }
 
+    &__follow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 12px;
+    }
+
     &__logs {
       padding: 24px;
       border-radius: 1rem;
       background-color: black;
       height: 300px;
       overflow: auto;
+      scroll-behavior: smooth;
 
       & > pre {
         color: whitesmoke;

@@ -1,3 +1,16 @@
 <div class="detail">
-  <pre>{{ log() ?? "No logs." }}</pre>
+  <div class="detail__follow">
+    <div>
+      <p-checkbox [formControl]="followForm" [binary]="true" inputId="follow" />
+      <label for="follow">Follow logs</label>
+    </div>
+    @if (build()?.status === 'BUILDING') {
+    <p-button (click)="cancelBuild()" severity="danger" size="small"
+      >Cancel build</p-button
+    >
+    }
+  </div>
+  <div #logElement class="detail__logs">
+    <pre>{{ build()?.log ?? "No logs" }}</pre>
+  </div>
 </div>

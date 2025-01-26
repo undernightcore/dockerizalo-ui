@@ -17,6 +17,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AppInterface } from '../../../../../../interfaces/app.interface';
 import { BuildsService } from '../../../../../../services/builds/builds.service';
 import { terminalCodesToHtml } from 'terminal-codes-to-html';
+import { BuildInterface } from '../../../../../../interfaces/build.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +56,11 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  isBuilding$ = this.builds$.pipe(
+    map((builds) => builds.some((build) => build.status === 'BUILDING')),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   buildId$ = this.#router.events.pipe(
     startWith(true),
     map(() => this.#router.url.split('/').at(4)),
@@ -62,12 +68,14 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
-  buildLogs$ = this.#appId.pipe(
+  build$ = this.#appId.pipe(
     switchMap((appId) =>
       this.buildId$.pipe(
         switchMap((buildId) =>
           buildId
-            ? this.#buildsService.getBuildLogs(appId, buildId)
+            ? this.#buildsService
+                .getBuild(appId, buildId)
+                .pipe(startWith(undefined))
             : of(undefined)
         )
       )
@@ -93,6 +101,23 @@ export class AppManagerService {
     return this.app$.pipe(
       take(1),
       switchMap((app) => this.#appsService.stopApp(app.id))
+    );
+  }
+
+  createBuild() {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) => this.#buildsService.createBuild(app.id))
+    );
+  }
+
+  cancelBuild() {
+    return this.build$.pipe(
+      take(1),
+      filter((build): build is BuildInterface => build !== undefined),
+      switchMap((build) =>
+        this.#buildsService.cancelBuild(build.appId, build.id)
+      )
     );
   }
 }

@@ -56,7 +56,15 @@
     <p-skeleton height="190.5px"></p-skeleton>
     } @if (logs()) {
     <p-panel header="Logs">
-      <div class="home__content__logs">
+      <div class="home__content__follow">
+        <p-checkbox
+          [formControl]="followForm"
+          [binary]="true"
+          inputId="follow"
+        />
+        <label for="follow">Follow logs</label>
+      </div>
+      <div #logElement class="home__content__logs">
         <pre>{{ logs() }}</pre>
       </div>
     </p-panel>
