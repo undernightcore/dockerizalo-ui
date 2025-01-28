@@ -1,26 +1,72 @@
 <div class="volumes">
   <h1>Volumes</h1>
   <div class="volumes__content">
-    @if (volumesForm.controls.length) {
+    @if (app()?.status === 'running') {
+    <p-message severity="warn"
+      >Volumes can't be changed while the app is running</p-message
+    >
+    } @if (volumesForm.controls.length) {
     <div class="volumes__content__list">
       @for (volume of volumesForm.controls; track $index) {
-      <div class="volumes__content__list__item"></div>
+      <div class="volumes__content__list__item">
+        <div class="volumes__content__list__item__form">
+          <div>
+            <label>Host</label>
+            <input
+              pInputText
+              [formControl]="volume.controls.host"
+              autocomplete="off"
+            />
+          </div>
+          <div>
+            <label>Internal</label>
+            <input
+              pInputText
+              [formControl]="volume.controls.internal"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+        <div class="volumes__content__list__item__actions">
+          <p-button
+            (click)="deleteVolume($index)"
+            size="large"
+            severity="danger"
+            icon="pi pi-trash"
+          />
+        </div>
+      </div>
       }
     </div>
     } @else {
     <div class="volumes__content__empty">
       <i class="pi pi-box"></i>
-      <span>No volumes (very stateless, indeed)</span>
+      <span>No volumes (very stateless)</span>
     </div>
     }
     <div class="volumes__content__spacer"></div>
     <div class="volumes__content__actions">
       <p-button
+        [disabled]="app()?.status === 'running'"
         (click)="addVolume()"
         severity="secondary"
         label="Add volume"
       ></p-button>
-      <p-button [disabled]="!volumesForm.valid" label="Save"></p-button>
+      <div>
+        @if (isSaved() === false) {
+        <span>There are unsaved changes</span>
+        }
+        <p-button
+          (click)="saveVolumes()"
+          [disabled]="
+            !volumesForm.valid ||
+            isSaved() ||
+            app()?.status === 'running' ||
+            saving()
+          "
+          label="Save"
+        ></p-button>
+      </div>
     </div>
   </div>
 </div>

@@ -33,6 +33,12 @@
 
       &__actions {
         display: flex;
+        align-items: center;
+        gap: 16px;
+
+        & > span {
+          color: var(--p-form-field-disabled-color);
+        }
       }
     }
 

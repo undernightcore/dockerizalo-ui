@@ -9,3 +9,8 @@ body {
   padding: 0;
   font-family: "Inter", serif;
 }
+
+.p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: all;
+}

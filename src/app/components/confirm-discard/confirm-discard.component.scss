@@ -1,0 +1,10 @@
+.confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__actions {
+    display: flex;
+    gap: 16px;
+  }
+}

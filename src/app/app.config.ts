@@ -10,6 +10,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { errorInterceptor } from './interceptors/error.interceptor';
 import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 const Noir = definePreset(Aura, {
   semantic: {
@@ -48,6 +49,7 @@ const Noir = definePreset(Aura, {
 export const appConfig: ApplicationConfig = {
   providers: [
     MessageService,
+    DialogService,
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),

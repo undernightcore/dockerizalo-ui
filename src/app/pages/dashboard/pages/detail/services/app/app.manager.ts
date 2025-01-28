@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppsService } from '../../../../../../services/apps/apps.service';
 import {
+  Subject,
   distinctUntilChanged,
   filter,
   map,
@@ -19,6 +20,7 @@ import { BuildsService } from '../../../../../../services/builds/builds.service'
 import { terminalCodesToHtml } from 'terminal-codes-to-html';
 import { BuildInterface } from '../../../../../../interfaces/build.interface';
 import { VolumesService } from '../../../../../../services/volumes/volumes.service';
+import { VolumeInterface } from '../../../../../../interfaces/volume.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -85,8 +87,14 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  #resetVolumes = new Subject<void>();
   volumes$ = this.#appId.pipe(
-    switchMap((appId) => this.#volumesService.getVolumes(appId)),
+    switchMap((appId) =>
+      this.#resetVolumes.pipe(
+        startWith(true),
+        switchMap(() => this.#volumesService.getVolumes(appId))
+      )
+    ),
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
@@ -125,6 +133,14 @@ export class AppManagerService {
       switchMap((build) =>
         this.#buildsService.cancelBuild(build.appId, build.id)
       )
+    );
+  }
+
+  saveVolumes(volumes: Omit<VolumeInterface, 'id' | 'appId'>[]) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) => this.#volumesService.saveVolumes(app.id, volumes)),
+      tap(() => this.#resetVolumes.next())
     );
   }
 }

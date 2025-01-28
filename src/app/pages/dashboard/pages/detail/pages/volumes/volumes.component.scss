@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: fit-content;
+  min-width: 585px;
 
   &__content {
     height: 100%;
@@ -14,8 +16,29 @@
     gap: 16px;
 
     &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 1rem;
       height: 100%;
       overflow: auto;
+
+      &__item {
+        display: flex;
+        gap: 48px;
+        align-items: flex-end;
+
+        &__form {
+          display: flex;
+          gap: 12px;
+
+          & > div {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+          }
+        }
+      }
     }
 
     &__empty {
@@ -41,6 +64,16 @@
       display: flex;
       justify-content: space-between;
       gap: 16px;
+
+      & > div {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        & > span {
+          color: var(--p-form-field-disabled-color);
+        }
+      }
     }
   }
 }

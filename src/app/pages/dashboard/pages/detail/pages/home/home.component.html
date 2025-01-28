@@ -49,6 +49,9 @@
             "
             >Save</p-button
           >
+          @if (unsaved()) {
+          <span>There are unsaved changes</span>
+          }
         </div>
       </div>
     </p-panel>
