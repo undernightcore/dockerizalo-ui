@@ -26,10 +26,6 @@ export class VolumesComponent {
   #appManager = inject(AppManagerService);
   #toastService = inject(MessageService);
 
-  app = toSignal(this.#appManager.app$);
-
-  saving = signal(false);
-
   volumesForm = new FormArray<
     FormGroup<{
       host: FormControl<string | null>;
@@ -37,9 +33,23 @@ export class VolumesComponent {
     }>
   >([]);
 
+  app = toSignal(
+    this.#appManager.app$.pipe(
+      tap(({ status }) =>
+        status === 'running'
+          ? this.volumesForm.disable()
+          : this.volumesForm.enable()
+      )
+    )
+  );
+
+  saving = signal(false);
+
   volumes = toSignal(
     this.#appManager.volumes$.pipe(
       tap((volumes) => {
+        const disabled = this.volumesForm.disabled;
+
         this.volumesForm.clear();
 
         volumes.forEach((volume) =>
@@ -50,6 +60,8 @@ export class VolumesComponent {
             })
           )
         );
+
+        this.volumesForm[disabled ? 'disable' : 'enable']();
       })
     )
   );

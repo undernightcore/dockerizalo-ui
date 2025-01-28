@@ -8,11 +8,9 @@ import { VolumesComponent } from '../volumes.component';
 export const unsavedVolumesGuard: CanDeactivateFn<VolumesComponent> = (
   component
 ) => {
-  const dialogService = inject(DialogService);
-
   return (
     component.isSaved() ||
-    dialogService
+    inject(DialogService)
       .open(ConfirmDiscardComponent, {
         header: 'Are you sure?',
         focusOnShow: false,

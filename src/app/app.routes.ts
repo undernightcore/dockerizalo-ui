@@ -11,6 +11,7 @@ import { BuildsDetailComponent } from './pages/dashboard/pages/detail/pages/buil
 import { VolumesComponent } from './pages/dashboard/pages/detail/pages/volumes/volumes.component';
 import { unsavedHomeGuard } from './pages/dashboard/pages/detail/pages/home/guards/unsaved.guard';
 import { unsavedVolumesGuard } from './pages/dashboard/pages/detail/pages/volumes/guards/unsaved.guard';
+import { PortsComponent } from './pages/dashboard/pages/detail/pages/ports/ports.component';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,10 @@ export const routes: Routes = [
             path: 'volumes',
             component: VolumesComponent,
             canDeactivate: [unsavedVolumesGuard],
+          },
+          {
+            path: 'ports',
+            component: PortsComponent,
           },
         ],
       },

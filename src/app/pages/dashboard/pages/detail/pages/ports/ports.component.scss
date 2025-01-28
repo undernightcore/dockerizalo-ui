@@ -1,0 +1,16 @@
+.ports {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    height: 100%;
+    background-color: var(--p-content-background);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}

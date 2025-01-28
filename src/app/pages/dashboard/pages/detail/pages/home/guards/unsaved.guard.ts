@@ -6,11 +6,9 @@ import { ConfirmDiscardComponent } from '../../../../../../../components/confirm
 import { map } from 'rxjs';
 
 export const unsavedHomeGuard: CanDeactivateFn<HomeComponent> = (component) => {
-  const dialogService = inject(DialogService);
-
   return (
     !component.unsaved() ||
-    dialogService
+    inject(DialogService)
       .open(ConfirmDiscardComponent, {
         header: 'Are you sure?',
         focusOnShow: false,
