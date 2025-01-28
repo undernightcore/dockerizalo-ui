@@ -18,6 +18,7 @@ import { AppInterface } from '../../../../../../interfaces/app.interface';
 import { BuildsService } from '../../../../../../services/builds/builds.service';
 import { terminalCodesToHtml } from 'terminal-codes-to-html';
 import { BuildInterface } from '../../../../../../interfaces/build.interface';
+import { VolumesService } from '../../../../../../services/volumes/volumes.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,7 @@ export class AppManagerService {
   #router = inject(Router);
   #appsService = inject(AppsService);
   #buildsService = inject(BuildsService);
+  #volumesService = inject(VolumesService);
 
   #appId = this.#router.events.pipe(
     startWith(true),
@@ -80,6 +82,11 @@ export class AppManagerService {
         )
       )
     ),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
+  volumes$ = this.#appId.pipe(
+    switchMap((appId) => this.#volumesService.getVolumes(appId)),
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 

@@ -1,0 +1,26 @@
+<div class="volumes">
+  <h1>Volumes</h1>
+  <div class="volumes__content">
+    @if (volumesForm.controls.length) {
+    <div class="volumes__content__list">
+      @for (volume of volumesForm.controls; track $index) {
+      <div class="volumes__content__list__item"></div>
+      }
+    </div>
+    } @else {
+    <div class="volumes__content__empty">
+      <i class="pi pi-box"></i>
+      <span>No volumes (very stateless, indeed)</span>
+    </div>
+    }
+    <div class="volumes__content__spacer"></div>
+    <div class="volumes__content__actions">
+      <p-button
+        (click)="addVolume()"
+        severity="secondary"
+        label="Add volume"
+      ></p-button>
+      <p-button [disabled]="!volumesForm.valid" label="Save"></p-button>
+    </div>
+  </div>
+</div>

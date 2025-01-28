@@ -8,6 +8,7 @@ import { DetailComponent } from './pages/dashboard/pages/detail/detail.component
 import { HomeComponent } from './pages/dashboard/pages/detail/pages/home/home.component';
 import { BuildsComponent } from './pages/dashboard/pages/detail/pages/builds/builds.component';
 import { BuildsDetailComponent } from './pages/dashboard/pages/detail/pages/builds/pages/detail/builds-detail.component';
+import { VolumesComponent } from './pages/dashboard/pages/detail/pages/volumes/volumes.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,7 @@ export const routes: Routes = [
               { path: ':buildId', component: BuildsDetailComponent },
             ],
           },
+          { path: 'volumes', component: VolumesComponent },
         ],
       },
     ],

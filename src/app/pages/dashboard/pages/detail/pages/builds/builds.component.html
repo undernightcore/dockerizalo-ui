@@ -5,7 +5,8 @@
       <router-outlet></router-outlet>
     </div>
     <div class="builds__content__list">
-      @for (build of builds(); track build.id) {
+      @if (builds()) { @if (builds()?.length) { @for (build of builds(); track
+      build.id) {
       <p-button
         [routerLink]="['/apps', app()?.id, 'builds', build.id]"
         [severity]="selectedBuild() === build.id ? 'primary' : 'secondary'"
@@ -28,6 +29,22 @@
           >
         </div>
       </p-button>
+      }} @else {
+      <p-button
+        (click)="createBuild()"
+        label="Build now"
+        icon="pi pi-hammer"
+        severity="contrast"
+        [disabled]="waiting()"
+      ></p-button>
+      } } @else {
+      <p-skeleton height="44px"></p-skeleton>
+      <p-skeleton height="44px"></p-skeleton>
+      <p-skeleton height="44px"></p-skeleton>
+      <p-skeleton height="44px"></p-skeleton>
+      <p-skeleton height="44px"></p-skeleton>
+      <p-skeleton height="44px"></p-skeleton>
+      <p-skeleton height="44px"></p-skeleton>
       }
     </div>
   </div>
