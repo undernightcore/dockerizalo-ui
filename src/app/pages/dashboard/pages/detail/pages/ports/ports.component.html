@@ -1,4 +1,77 @@
 <div class="ports">
   <h1>Ports</h1>
-  <div class="ports__content"></div>
+  <div class="ports__content">
+    @if (app()?.status === 'running') {
+    <p-message severity="warn"
+      >Ports can't be changed while the app is running</p-message
+    >
+    } @if (portsForm.hasError('conflicting')) {
+    <p-message severity="error">All external ports must be unique</p-message>
+    } @if (portsForm.controls.length) {
+    <div class="ports__content__list">
+      @for (port of portsForm.controls; track $index) {
+      <div class="ports__content__list__item">
+        <div class="ports__content__list__item__form">
+          <div>
+            <label>External</label>
+            <p-inputnumber
+              [useGrouping]="false"
+              [min]="1"
+              [max]="65535"
+              [formControl]="port.controls.external"
+            />
+          </div>
+          <div>
+            <label>Internal</label>
+            <p-inputnumber
+              [useGrouping]="false"
+              [min]="1"
+              [max]="65535"
+              [formControl]="port.controls.internal"
+            />
+          </div>
+        </div>
+        <div class="ports__content__list__item__actions">
+          <p-button
+            [disabled]="app()?.status === 'running'"
+            (click)="deletePort($index)"
+            size="large"
+            severity="danger"
+            icon="pi pi-trash"
+          />
+        </div>
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="ports__content__empty">
+      <i class="pi pi-link"></i>
+      <span>No ports (very silent)</span>
+    </div>
+    }
+    <div class="ports__content__spacer"></div>
+    <div class="ports__content__actions">
+      <p-button
+        (click)="addPort()"
+        [disabled]="app()?.status === 'running'"
+        severity="secondary"
+        label="Add port"
+      ></p-button>
+      <div>
+        @if (isSaved() === false) {
+        <span>There are unsaved changes</span>
+        }
+        <p-button
+          (click)="savePorts()"
+          [disabled]="
+            !portsForm.valid ||
+            isSaved() ||
+            app()?.status === 'running' ||
+            saving()
+          "
+          label="Save"
+        ></p-button>
+      </div>
+    </div>
+  </div>
 </div>

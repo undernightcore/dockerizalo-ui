@@ -14,13 +14,13 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { AppInterface } from '../../../../../../interfaces/app.interface';
 import { BuildsService } from '../../../../../../services/builds/builds.service';
-import { terminalCodesToHtml } from 'terminal-codes-to-html';
 import { BuildInterface } from '../../../../../../interfaces/build.interface';
 import { VolumesService } from '../../../../../../services/volumes/volumes.service';
 import { VolumeInterface } from '../../../../../../interfaces/volume.interface';
+import { PortsService } from '../../../../../../services/ports/ports.service';
+import { PortInterface } from '../../../../../../interfaces/ports.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +30,7 @@ export class AppManagerService {
   #appsService = inject(AppsService);
   #buildsService = inject(BuildsService);
   #volumesService = inject(VolumesService);
+  #portsService = inject(PortsService);
 
   #appId = this.#router.events.pipe(
     startWith(true),
@@ -98,6 +99,17 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  #resetPorts = new Subject<void>();
+  ports$ = this.#appId.pipe(
+    switchMap((appId) =>
+      this.#resetPorts.pipe(
+        startWith(true),
+        switchMap(() => this.#portsService.getPorts(appId))
+      )
+    ),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   startApp() {
     return this.app$.pipe(
       take(1),
@@ -141,6 +153,14 @@ export class AppManagerService {
       take(1),
       switchMap((app) => this.#volumesService.saveVolumes(app.id, volumes)),
       tap(() => this.#resetVolumes.next())
+    );
+  }
+
+  savePorts(volumes: Omit<PortInterface, 'id' | 'appId'>[]) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) => this.#portsService.savePorts(app.id, volumes)),
+      tap(() => this.#resetPorts.next())
     );
   }
 }
