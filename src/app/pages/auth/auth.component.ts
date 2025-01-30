@@ -29,6 +29,8 @@ import { AuthService } from '../../services/auth/auth.service';
 })
 export class AuthComponent {
   #route = inject(ActivatedRoute);
+  #authService = inject(AuthService);
+  #router = inject(Router);
 
   authForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -48,8 +50,6 @@ export class AuthComponent {
     )
   );
 
-  constructor(private authService: AuthService, private router: Router) {}
-
   submit() {
     Object.values(this.authForm.controls).forEach((control) =>
       control.markAsDirty()
@@ -59,17 +59,17 @@ export class AuthComponent {
 
     defer(() =>
       this.isLogin()
-        ? this.authService.loginUser({
+        ? this.#authService.loginUser({
             email: String(this.authForm.controls.email.value),
             password: String(this.authForm.controls.password.value),
           })
-        : this.authService.registerUser({
+        : this.#authService.registerUser({
             name: String(this.authForm.controls.name.value),
             email: String(this.authForm.controls.email.value),
             password: String(this.authForm.controls.password.value),
           })
     )
-      .pipe(switchMap(() => this.router.navigate(['/'])))
+      .pipe(switchMap(() => this.#router.navigate(['/'])))
       .subscribe();
   }
 }

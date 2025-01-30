@@ -39,21 +39,11 @@ export class PortsComponent {
     }>
   >([], [uniquePortsValidator]);
 
-  app = toSignal(
-    this.#appManager.app$.pipe(
-      tap(({ status }) =>
-        status === 'running'
-          ? this.portsForm.disable()
-          : this.portsForm.enable()
-      )
-    )
-  );
+  app = toSignal(this.#appManager.app$);
 
   ports = toSignal(
     this.#appManager.ports$.pipe(
       tap((ports) => {
-        const disabled = this.portsForm.disabled;
-
         this.portsForm.clear();
 
         ports.forEach((port) =>
@@ -64,8 +54,6 @@ export class PortsComponent {
             })
           )
         );
-
-        this.portsForm[disabled ? 'disable' : 'enable']();
       })
     )
   );

@@ -52,7 +52,10 @@ export class HomeComponent {
 
   followForm = new FormControl(true);
 
-  app = toSignal(this.#appManager.app$);
+  app = toSignal(
+    this.#appManager.app$.pipe(tap((app) => this.appForm.patchValue(app)))
+  );
+
   logs = toSignal(
     this.#appManager.logs$.pipe(
       tap(
@@ -81,20 +84,6 @@ export class HomeComponent {
           (form.description || null) !== (app.description || null) ||
           form.branch !== app.branch ||
           form.repository !== app.repository
-      )
-    )
-  );
-
-  _patchFormOnAppChangeEffect = toSignal(
-    this.#appManager.app$.pipe(tap((app) => this.appForm.patchValue(app)))
-  );
-
-  _disableFormIfAppIsRunningEffect = toSignal(
-    this.#appManager.app$.pipe(
-      tap((app) =>
-        app.status === 'running'
-          ? this.appForm.disable()
-          : this.appForm.enable()
       )
     )
   );

@@ -3,7 +3,7 @@
   <div class="ports__content">
     @if (app()?.status === 'running') {
     <p-message severity="warn"
-      >Ports can't be changed while the app is running</p-message
+      >Any changes made to a running app require a full restart</p-message
     >
     } @if (portsForm.hasError('conflicting')) {
     <p-message severity="error">All external ports must be unique</p-message>
@@ -33,7 +33,6 @@
         </div>
         <div class="ports__content__list__item__actions">
           <p-button
-            [disabled]="app()?.status === 'running'"
             (click)="deletePort($index)"
             size="large"
             severity="danger"
@@ -53,7 +52,6 @@
     <div class="ports__content__actions">
       <p-button
         (click)="addPort()"
-        [disabled]="app()?.status === 'running'"
         severity="secondary"
         label="Add port"
       ></p-button>
@@ -63,12 +61,7 @@
         }
         <p-button
           (click)="savePorts()"
-          [disabled]="
-            !portsForm.valid ||
-            isSaved() ||
-            app()?.status === 'running' ||
-            saving()
-          "
+          [disabled]="!portsForm.valid || isSaved() || saving()"
           label="Save"
         ></p-button>
       </div>

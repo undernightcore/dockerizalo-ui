@@ -3,7 +3,7 @@
   <div class="volumes__content">
     @if (app()?.status === 'running') {
     <p-message severity="warn"
-      >Volumes can't be changed while the app is running</p-message
+      >Any changes made to a running app require a full restart</p-message
     >
     } @if (volumesForm.controls.length) {
     <div class="volumes__content__list">
@@ -29,7 +29,6 @@
         </div>
         <div class="volumes__content__list__item__actions">
           <p-button
-            [disabled]="app()?.status === 'running'"
             (click)="deleteVolume($index)"
             size="large"
             severity="danger"
@@ -48,7 +47,6 @@
     <div class="volumes__content__spacer"></div>
     <div class="volumes__content__actions">
       <p-button
-        [disabled]="app()?.status === 'running'"
         (click)="addVolume()"
         severity="secondary"
         label="Add volume"
@@ -59,12 +57,7 @@
         }
         <p-button
           (click)="saveVolumes()"
-          [disabled]="
-            !volumesForm.valid ||
-            isSaved() ||
-            app()?.status === 'running' ||
-            saving()
-          "
+          [disabled]="!volumesForm.valid || isSaved() || saving()"
           label="Save"
         ></p-button>
       </div>

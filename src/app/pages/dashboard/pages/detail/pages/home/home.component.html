@@ -3,7 +3,7 @@
   <div class="home__content">
     @if (app()?.status === 'running') {
     <p-message severity="warn"
-      >Main settings can't be changed while the app is running</p-message
+      >Any changes made to a running app require a full restart</p-message
     >
     } @if (app()) {
     <p-panel header="Main settings">
@@ -41,12 +41,7 @@
         <div class="home__content__panel__actions">
           <p-button
             (click)="saveApp()"
-            [disabled]="
-              !appForm.valid ||
-              app()?.status === 'running' ||
-              saving() ||
-              !unsaved()
-            "
+            [disabled]="!appForm.valid || saving() || !unsaved()"
             >Save</p-button
           >
           @if (unsaved()) {
