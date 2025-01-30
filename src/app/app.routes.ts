@@ -13,6 +13,8 @@ import { unsavedHomeGuard } from './pages/dashboard/pages/detail/pages/home/guar
 import { unsavedVolumesGuard } from './pages/dashboard/pages/detail/pages/volumes/guards/unsaved.guard';
 import { PortsComponent } from './pages/dashboard/pages/detail/pages/ports/ports.component';
 import { unsavedPortsGuard } from './pages/dashboard/pages/detail/pages/ports/guards/unsaved.guard';
+import { VariablesComponent } from './pages/dashboard/pages/detail/pages/variables/variables.component';
+import { unsavedVariablesGuard } from './pages/dashboard/pages/detail/pages/variables/guards/unsaved.guard';
 
 export const routes: Routes = [
   {
@@ -53,6 +55,11 @@ export const routes: Routes = [
             path: 'ports',
             component: PortsComponent,
             canDeactivate: [unsavedPortsGuard],
+          },
+          {
+            path: 'variables',
+            component: VariablesComponent,
+            canDeactivate: [unsavedVariablesGuard],
           },
         ],
       },

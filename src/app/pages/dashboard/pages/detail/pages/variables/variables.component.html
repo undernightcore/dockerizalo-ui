@@ -1,0 +1,82 @@
+<div class="variables">
+  <h1>Variables</h1>
+  <div class="variables__content">
+    @if (app()?.status === 'running') {
+    <p-message severity="warn"
+      >Any changes made to a running app require a full restart</p-message
+    >
+    } @if (variablesForm.hasError('conflicting')) {
+    <p-message severity="error">All variable keys must be unique</p-message>
+    } @if (variablesForm.controls.length) {
+    <div class="variables__content__list">
+      @for (variable of variablesForm.controls; track $index) {
+      <div class="variables__content__list__item">
+        <div class="variables__content__list__item__form">
+          <div>
+            <label>Key</label>
+            <input
+              pInputText
+              [formControl]="variable.controls.key"
+              autocomplete="off"
+            />
+          </div>
+          <div>
+            <label>Value</label>
+            <input
+              pInputText
+              [formControl]="variable.controls.value"
+              autocomplete="off"
+            />
+          </div>
+          <div>
+            <div>
+              <label>Build</label>
+              <i
+                pTooltip="This ensures the variable is also available when building"
+                tooltipPosition="top"
+                class="pi pi-question-circle"
+              ></i>
+            </div>
+            <p-checkbox
+              [formControl]="variable.controls.build"
+              [binary]="true"
+            ></p-checkbox>
+          </div>
+        </div>
+        <div class="variables__content__list__item__actions">
+          <p-button
+            (click)="deleteVariable($index)"
+            size="large"
+            severity="danger"
+            icon="pi pi-trash"
+          />
+        </div>
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="variables__content__empty">
+      <i class="pi pi-key"></i>
+      <span>No variables</span>
+    </div>
+    }
+    <div class="variables__content__spacer"></div>
+    <div class="variables__content__actions">
+      <p-button
+        (click)="addVariable()"
+        severity="secondary"
+        label="Add variable"
+      ></p-button>
+      <div>
+        @if (isSaved() === false) {
+        <span>There are unsaved changes</span>
+        }
+        <p-button
+          (click)="saveVariables()"
+          [disabled]="!variablesForm.valid || isSaved() || saving()"
+          label="Save"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</div>

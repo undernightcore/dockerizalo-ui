@@ -21,6 +21,8 @@ import { VolumesService } from '../../../../../../services/volumes/volumes.servi
 import { VolumeInterface } from '../../../../../../interfaces/volume.interface';
 import { PortsService } from '../../../../../../services/ports/ports.service';
 import { PortInterface } from '../../../../../../interfaces/ports.interface';
+import { VariablesService } from '../../../../../../services/variables/variables.service';
+import { VariableInterface } from '../../../../../../interfaces/variable.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +33,7 @@ export class AppManagerService {
   #buildsService = inject(BuildsService);
   #volumesService = inject(VolumesService);
   #portsService = inject(PortsService);
+  #variablesService = inject(VariablesService);
 
   #appId = this.#router.events.pipe(
     startWith(true),
@@ -110,6 +113,17 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  #resetVariables = new Subject<void>();
+  variables$ = this.#appId.pipe(
+    switchMap((appId) =>
+      this.#resetVariables.pipe(
+        startWith(true),
+        switchMap(() => this.#variablesService.getVariables(appId))
+      )
+    ),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   startApp() {
     return this.app$.pipe(
       take(1),
@@ -161,6 +175,16 @@ export class AppManagerService {
       take(1),
       switchMap((app) => this.#portsService.savePorts(app.id, volumes)),
       tap(() => this.#resetPorts.next())
+    );
+  }
+
+  saveVariables(variables: Omit<VariableInterface, 'id' | 'appId'>[]) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) =>
+        this.#variablesService.saveVariables(app.id, variables)
+      ),
+      tap(() => this.#resetVariables.next())
     );
   }
 }
