@@ -145,6 +145,13 @@ export class AppManagerService {
     );
   }
 
+  deleteApp(force: boolean) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) => this.#appsService.deleteApp(app.id, force))
+    );
+  }
+
   createBuild() {
     return this.app$.pipe(
       take(1),

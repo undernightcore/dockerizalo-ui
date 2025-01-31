@@ -1,0 +1,34 @@
+<div class="delete">
+  <p-message severity="warn">
+    Please input the name of the app to confirm
+  </p-message>
+  <div class="delete__form">
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="deleteForm.controls.name"
+        pInputText
+        id="name"
+        autocomplete="off"
+      />
+      <label for="name">Name</label>
+    </p-floatlabel>
+    <div>
+      <p-checkbox
+        [formControl]="deleteForm.controls.force"
+        [binary]="true"
+      ></p-checkbox>
+      <span>Also stop and delete compose files</span>
+    </div>
+  </div>
+  <div class="delete__actions">
+    <p-button
+      severity="danger"
+      [disabled]="!deleteForm.valid"
+      (click)="ref.close({ force: deleteForm.controls.force.value })"
+      >Delete</p-button
+    >
+    <p-button severity="secondary" (click)="ref.close(undefined)"
+      >Cancel</p-button
+    >
+  </div>
+</div>

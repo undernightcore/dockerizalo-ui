@@ -3,11 +3,21 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { distinctUntilChanged, map, startWith, tap } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { AppManagerService } from './services/app/app.manager';
 import { SkeletonModule } from 'primeng/skeleton';
 import { BadgeModule } from 'primeng/badge';
 import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+import { DeleteAppComponent } from './components/delete-app/delete-app.component';
 
 @Component({
   selector: 'app-detail',
@@ -26,6 +36,7 @@ export class DetailComponent {
   #router = inject(Router);
   #appManager = inject(AppManagerService);
   #toastService = inject(MessageService);
+  #dialogService = inject(DialogService);
 
   route = toSignal(
     this.#router.events.pipe(
@@ -119,6 +130,32 @@ export class DetailComponent {
             });
             this.#router.navigate(['/apps', appId, 'builds', id]);
           },
+        })
+      )
+      .subscribe();
+  }
+
+  deleteApp() {
+    this.#appManager.app$
+      .pipe(
+        take(1),
+        switchMap(
+          (app) =>
+            this.#dialogService.open(DeleteAppComponent, {
+              header: 'Delete app',
+              data: app,
+            }).onClose
+        ),
+        filter((request): request is { force?: boolean } => Boolean(request)),
+        switchMap(({ force }) => this.#appManager.deleteApp(Boolean(force))),
+        tap(({ message }) => {
+          this.#toastService.add({
+            summary: 'Success',
+            detail: message,
+            severity: 'success',
+          });
+
+          this.#router.navigate(['/']);
         })
       )
       .subscribe();

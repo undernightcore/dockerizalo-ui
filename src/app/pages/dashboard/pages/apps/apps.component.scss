@@ -33,6 +33,15 @@
     }
   }
 
+  &__empty {
+    height: 100%;
+    flex-direction: column;
+    gap: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   &__loading {
     display: flex;
     flex-direction: column;

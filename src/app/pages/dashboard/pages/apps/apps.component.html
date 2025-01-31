@@ -1,13 +1,9 @@
 <div class="apps">
   <div class="apps__header">
     <h1>Applications</h1>
-    <p-button
-      (click)="openCreateApp()"
-      size="small"
-      label="Create new"
-    ></p-button>
+    <p-button (click)="createApp()" size="small" label="Create new"></p-button>
   </div>
-  @if (apps()) {
+  @if (apps()) { @if (apps()?.length) {
   <div class="apps__list">
     @for (app of apps(); track app.id) {
     <p-card (click)="goToApp(app.id)" class="apps__list__item">
@@ -23,6 +19,12 @@
     }
   </div>
   } @else {
+  <div class="apps__empty">
+    <i class="pi pi-box"></i>
+    <span>Create your first app to start!</span>
+    <p-button (click)="createApp()" size="small" label="Create new"></p-button>
+  </div>
+  } } @else {
   <div class="apps__loading">
     <p-skeleton height="120px" />
     <p-skeleton height="120px" />

@@ -83,7 +83,9 @@
     <div>
       <div class="detail__menu__spacer"></div>
       <p-button
-        label="Dangerous zone"
+        [disabled]="!app()"
+        (click)="deleteApp()"
+        label="Delete app"
         severity="danger"
         icon="pi pi-trash"
       ></p-button>

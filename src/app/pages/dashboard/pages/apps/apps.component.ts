@@ -30,7 +30,7 @@ export class AppsComponent {
     )
   );
 
-  openCreateApp() {
+  createApp() {
     this.#dialogService
       .open(CreateAppComponent, {
         header: 'Create new app',

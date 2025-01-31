@@ -60,4 +60,11 @@ export class AppsService {
       {}
     );
   }
+
+  deleteApp(appId: string, force: boolean) {
+    return this.#http.delete<MessageInterface>(
+      `${environment.apiUrl}/apps/${appId}?force=${force}`,
+      {}
+    );
+  }
 }
