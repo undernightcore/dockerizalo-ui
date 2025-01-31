@@ -3,6 +3,12 @@
   flex-direction: column;
   height: 100%;
 
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
   &__list {
     display: flex;
     flex-direction: column;

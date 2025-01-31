@@ -36,6 +36,10 @@ export class AppsService {
       .pipe(map((json) => JSON.parse(json) as string));
   }
 
+  createApp(app: Omit<AppInterface, 'id' | 'status'>) {
+    return this.#http.post<AppInterface>(`${environment.apiUrl}/apps`, app);
+  }
+
   updateApp(appId: string, app: Omit<AppInterface, 'id' | 'status'>) {
     return this.#http.put<AppInterface>(
       `${environment.apiUrl}/apps/${appId}`,

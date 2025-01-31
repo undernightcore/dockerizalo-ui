@@ -1,0 +1,49 @@
+<div class="create">
+  <p-message severity="warn"
+    >Dockerizalo assumes a Dockerfile at / of the repository</p-message
+  >
+  <div class="create__form">
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="appForm.controls.name"
+        pInputText
+        id="name"
+        autocomplete="off"
+      />
+      <label for="name">Name</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="appForm.controls.description"
+        pInputText
+        id="description"
+        autocomplete="off"
+      />
+      <label for="description">Description</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="appForm.controls.repository"
+        pInputText
+        id="repository"
+        autocomplete="off"
+      />
+      <label for="repository">Repository</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="appForm.controls.branch"
+        pInputText
+        id="branch"
+        autocomplete="off"
+      />
+      <label for="branch">Branch</label>
+    </p-floatlabel>
+  </div>
+  <div class="create__actions">
+    <p-button [disabled]="!appForm.valid" (click)="ref.close(appForm.value)"
+      >Create</p-button
+    >
+    <p-button severity="secondary" (click)="ref.close(false)">Cancel</p-button>
+  </div>
+</div>

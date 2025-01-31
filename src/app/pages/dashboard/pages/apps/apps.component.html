@@ -1,5 +1,12 @@
 <div class="apps">
-  <h1>Applications</h1>
+  <div class="apps__header">
+    <h1>Applications</h1>
+    <p-button
+      (click)="openCreateApp()"
+      size="small"
+      label="Create new"
+    ></p-button>
+  </div>
   @if (apps()) {
   <div class="apps__list">
     @for (app of apps(); track app.id) {
