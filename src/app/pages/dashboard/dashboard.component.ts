@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SlicePipe } from '@angular/common';
 import { distinctUntilChanged, map, startWith, tap } from 'rxjs';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ import { distinctUntilChanged, map, startWith, tap } from 'rxjs';
     AvatarModule,
     SlicePipe,
     RouterLink,
+    TooltipModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -33,4 +35,9 @@ export class DashboardComponent {
       distinctUntilChanged()
     )
   );
+
+  logOut() {
+    this.#authService.clearToken();
+    this.#router.navigate(['/login']);
+  }
 }

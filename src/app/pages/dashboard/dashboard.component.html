@@ -21,6 +21,9 @@
       @if (user()) {
       <div class="dashboard__actions__group__spacer"></div>
       <p-avatar
+        [pTooltip]="tooltipContent"
+        tooltipPosition="right"
+        [autoHide]="false"
         [label]="(user()?.name | slice : 0 : 1) ?? undefined"
         shape="circle"
       ></p-avatar>
@@ -31,3 +34,7 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+
+<ng-template #tooltipContent>
+  <p-button (click)="logOut()" label="Log out" size="small"></p-button>
+</ng-template>
