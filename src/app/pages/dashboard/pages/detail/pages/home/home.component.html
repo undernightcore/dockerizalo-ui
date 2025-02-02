@@ -37,6 +37,17 @@
               id="branch"
             />
           </div>
+          <div>
+            <label for="tokenId">Token</label>
+            <p-select
+              [showClear]="true"
+              optionValue="id"
+              optionLabel="name"
+              [options]="tokens()"
+              [formControl]="appForm.controls.tokenId"
+              id="tokenId"
+            ></p-select>
+          </div>
         </div>
         <div class="home__content__panel__actions">
           <p-button

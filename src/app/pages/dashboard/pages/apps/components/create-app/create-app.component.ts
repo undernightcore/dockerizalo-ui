@@ -10,6 +10,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
+import { urlValidator } from '../../../../validators/url.validator';
 
 @Component({
   selector: 'app-create-app',
@@ -29,7 +30,11 @@ export class CreateAppComponent {
   appForm = new FormGroup({
     name: new FormControl<string | null>(null, [Validators.required]),
     description: new FormControl<string | null>(null),
-    repository: new FormControl<string | null>(null, [Validators.required]),
+    repository: new FormControl<string | null>(null, [
+      Validators.required,
+      urlValidator,
+    ]),
     branch: new FormControl<string | null>(null, [Validators.required]),
+    tokenId: new FormControl<string | null>(null),
   });
 }

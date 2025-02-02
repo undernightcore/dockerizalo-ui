@@ -22,6 +22,9 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { MessageService } from 'primeng/api';
 import { CheckboxModule } from 'primeng/checkbox';
 import { elementReady } from '../../../../../../utils/dom.utils';
+import { SelectModule } from 'primeng/select';
+import { TokensService } from '../../../../../../services/tokens/tokens.service';
+import { urlValidator } from '../../../../validators/url.validator';
 
 @Component({
   selector: 'app-home',
@@ -33,6 +36,7 @@ import { elementReady } from '../../../../../../utils/dom.utils';
     ButtonModule,
     SkeletonModule,
     CheckboxModule,
+    SelectModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -41,13 +45,18 @@ export class HomeComponent {
   @ViewChild('logElement') private logElement?: ElementRef<HTMLDivElement>;
 
   #appManager = inject(AppManagerService);
+  #tokenService = inject(TokensService);
   #toastService = inject(MessageService);
 
   appForm = new FormGroup({
     name: new FormControl<string | null>(null, [Validators.required]),
     description: new FormControl<string | null>(null),
-    repository: new FormControl<string | null>(null, [Validators.required]),
+    repository: new FormControl<string | null>(null, [
+      Validators.required,
+      urlValidator,
+    ]),
     branch: new FormControl<string | null>(null, [Validators.required]),
+    tokenId: new FormControl<string | null>(null),
   });
 
   followForm = new FormControl(true);
@@ -55,6 +64,8 @@ export class HomeComponent {
   app = toSignal(
     this.#appManager.app$.pipe(tap((app) => this.appForm.patchValue(app)))
   );
+
+  tokens = toSignal(this.#tokenService.getTokens());
 
   logs = toSignal(
     this.#appManager.logs$.pipe(
@@ -83,7 +94,8 @@ export class HomeComponent {
           form.name !== app.name ||
           (form.description || null) !== (app.description || null) ||
           form.branch !== app.branch ||
-          form.repository !== app.repository
+          form.repository !== app.repository ||
+          (form.tokenId || null) !== (app.tokenId || null)
       )
     )
   );
@@ -113,6 +125,7 @@ export class HomeComponent {
         description: this.appForm.value.description || null,
         branch: String(this.appForm.value.branch),
         repository: String(this.appForm.value.repository),
+        tokenId: this.appForm.value.tokenId || null,
       })
       .pipe(
         tap({
