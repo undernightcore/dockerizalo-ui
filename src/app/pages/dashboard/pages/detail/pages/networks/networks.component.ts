@@ -18,6 +18,7 @@ import { uniqueNetworksValidator } from './validators/unique-networks.validator'
 import { combineLatest, map, startWith, tap } from 'rxjs';
 import { toMap } from '../../../../../../utils/array.utils';
 import { NetworkInterface } from '../../../../../../interfaces/network.interface';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
   selector: 'app-networks',
@@ -26,7 +27,7 @@ import { NetworkInterface } from '../../../../../../interfaces/network.interface
     InputTextModule,
     ReactiveFormsModule,
     MessageModule,
-    CheckboxModule,
+    ToggleSwitchModule,
     TooltipModule,
   ],
   templateUrl: './networks.component.html',

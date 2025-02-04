@@ -18,6 +18,7 @@ import { toMap } from '../../../../../../utils/array.utils';
 import { VariableInterface } from '../../../../../../interfaces/variable.interface';
 import { uniqueVariablesValidator } from './validators/unique-variables.validator';
 import { TooltipModule } from 'primeng/tooltip';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
   selector: 'app-variables',
@@ -26,7 +27,7 @@ import { TooltipModule } from 'primeng/tooltip';
     InputTextModule,
     ReactiveFormsModule,
     MessageModule,
-    CheckboxModule,
+    ToggleSwitchModule,
     TooltipModule,
   ],
   templateUrl: './variables.component.html',
