@@ -10,7 +10,13 @@
       <ng-template #title>
         {{ app.name }}
         <p-badge
-          [severity]="app.status === 'running' ? 'success' : 'danger'"
+          [severity]="
+            app.status === 'running'
+              ? 'success'
+              : app.status === 'restarting'
+              ? 'warn'
+              : 'danger'
+          "
         ></p-badge>
       </ng-template>
       <ng-template #subtitle>{{ app.branch }}</ng-template>

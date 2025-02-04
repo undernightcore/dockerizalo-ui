@@ -8,8 +8,20 @@
         </div>
         <div class="detail__menu__info__status">
           <p-badge
-            [value]="app()?.status === 'running' ? 'Running' : 'Stopped'"
-            [severity]="app()?.status === 'running' ? 'success' : 'danger'"
+            [value]="
+              app()?.status === 'running'
+                ? 'Running'
+                : app()?.status === 'restarting'
+                ? 'Restarting'
+                : 'Stopped'
+            "
+            [severity]="
+              app()?.status === 'running'
+                ? 'success'
+                : app()?.status === 'restarting'
+                ? 'warn'
+                : 'danger'
+            "
           />
           @if (building()) {
           <p-badge [value]="'Building'" [severity]="'warn'" />
@@ -17,7 +29,7 @@
         </div>
         <span>{{ app()?.description ?? "-" }}</span>
         <div class="detail__menu__info__actions">
-          @if (app()?.status === 'running') {
+          @if (app()?.status === 'running' || app()?.status === 'restarting') {
           <p-button
             [disabled]="waiting()"
             (click)="stopApp()"

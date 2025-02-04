@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { TokenInterface } from '../../interfaces/auth.interface';
 import { environment } from '../../../environments/environment';
 import { MessageInterface } from '../../interfaces/message.interface';
+import { TokenInterface } from '../../interfaces/token.interface';
 
 @Injectable({
   providedIn: 'root',

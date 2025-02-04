@@ -1,0 +1,33 @@
+<div class="tokens">
+  <p-button (click)="createToken()" label="Crear token"></p-button>
+  @if (tokens()) { @if (tokens()?.length) {
+  <div class="tokens__content">
+    <div class="tokens__content__grid">
+      @for (token of tokens(); track token.id) {
+      <p-card [header]="token.name">
+        <ng-template #title>
+          {{ token.name }}
+        </ng-template>
+        <ng-template #subtitle>{{ token.username }}</ng-template>
+        <ng-template #footer>
+          <div class="tokens__content__grid__actions">
+            <p-button (click)="editToken(token)" label="Editar" />
+            <p-button
+              (click)="deleteToken(token)"
+              label="Eliminar"
+              severity="danger"
+              [outlined]="true"
+            />
+          </div>
+        </ng-template>
+      </p-card>
+      }
+    </div>
+  </div>
+  } @else {
+  <div class="tokens__empty">
+    <i class="pi pi-key"></i>
+    <span>No tokens</span>
+  </div>
+  } }
+</div>

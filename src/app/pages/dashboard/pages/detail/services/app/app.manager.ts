@@ -50,7 +50,7 @@ export class AppManagerService {
 
   logs$ = this.app$.pipe(
     switchMap((app) =>
-      app.status === 'running'
+      app.status === 'running' || app.status === 'restarting'
         ? this.#appsService
             .getAppLogs(app.id)
             .pipe(scan((acc, message) => acc + message, ''))

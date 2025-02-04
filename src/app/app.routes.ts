@@ -15,6 +15,7 @@ import { PortsComponent } from './pages/dashboard/pages/detail/pages/ports/ports
 import { unsavedPortsGuard } from './pages/dashboard/pages/detail/pages/ports/guards/unsaved.guard';
 import { VariablesComponent } from './pages/dashboard/pages/detail/pages/variables/variables.component';
 import { unsavedVariablesGuard } from './pages/dashboard/pages/detail/pages/variables/guards/unsaved.guard';
+import { TokensComponent } from './pages/dashboard/pages/settings/pages/tokens/tokens.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,12 @@ export const routes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent,
+        children: [
+          {
+            path: '',
+            component: TokensComponent,
+          },
+        ],
       },
       {
         path: 'apps/:appId',

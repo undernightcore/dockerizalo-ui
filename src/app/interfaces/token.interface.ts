@@ -1,5 +1,6 @@
 export interface TokenInterface {
   id: string;
   name: string;
-  value: string;
+  username: string;
+  password: string;
 }

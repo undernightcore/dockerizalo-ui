@@ -1,0 +1,40 @@
+<div class="token">
+  <p-message severity="info"
+    >This token can be used in any project to clone private repos</p-message
+  >
+  <div class="token__form">
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="tokenForm.controls.name"
+        pInputText
+        id="name"
+        autocomplete="off"
+      />
+      <label for="name">Name</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="tokenForm.controls.username"
+        pInputText
+        id="username"
+        autocomplete="off"
+      />
+      <label for="username">Username</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <p-password
+        [toggleMask]="true"
+        [formControl]="tokenForm.controls.password"
+        [feedback]="false"
+        id="password"
+      ></p-password>
+      <label for="password">Password</label>
+    </p-floatlabel>
+  </div>
+  <div class="token__actions">
+    <p-button [disabled]="!tokenForm.valid" (click)="ref.close(tokenForm.value)"
+      >Save</p-button
+    >
+    <p-button severity="secondary" (click)="ref.close(false)">Cancel</p-button>
+  </div>
+</div>

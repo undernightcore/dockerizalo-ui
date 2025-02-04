@@ -1,0 +1,23 @@
+<div class="delete">
+  <p-message severity="warn"> Please input the name of the token </p-message>
+  <div class="delete__form">
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="deleteForm.controls.name"
+        pInputText
+        id="name"
+        autocomplete="off"
+      />
+      <label for="name">Name</label>
+    </p-floatlabel>
+  </div>
+  <div class="delete__actions">
+    <p-button
+      severity="danger"
+      [disabled]="!deleteForm.valid"
+      (click)="ref.close(true)"
+      >Delete</p-button
+    >
+    <p-button severity="secondary" (click)="ref.close(false)">Cancel</p-button>
+  </div>
+</div>
