@@ -1,0 +1,74 @@
+<div class="networks">
+  <h1>Networks</h1>
+  <div class="networks__content">
+    @if (app()?.status === 'running') {
+    <p-message severity="warn"
+      >Any changes made to a running app require a full restart</p-message
+    >
+    } @if (networksForm.hasError('conflicting')) {
+    <p-message severity="error">All network names must be unique</p-message>
+    } @if (networksForm.controls.length) {
+    <div class="networks__content__list">
+      @for (network of networksForm.controls; track $index) {
+      <div class="networks__content__list__item">
+        <div class="networks__content__list__item__form">
+          <div>
+            <label>Name</label>
+            <input
+              pInputText
+              [formControl]="network.controls.name"
+              autocomplete="off"
+            />
+          </div>
+          <div>
+            <div>
+              <label>External</label>
+              <i
+                pTooltip="This ensures the network is also available when building"
+                tooltipPosition="top"
+                class="pi pi-question-circle"
+              ></i>
+            </div>
+            <p-checkbox
+              [formControl]="network.controls.external"
+              [binary]="true"
+            ></p-checkbox>
+          </div>
+        </div>
+        <div class="networks__content__list__item__actions">
+          <p-button
+            (click)="deleteNetwork($index)"
+            size="large"
+            severity="danger"
+            icon="pi pi-trash"
+          />
+        </div>
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="networks__content__empty">
+      <i class="pi pi-sitemap"></i>
+      <span>No networks</span>
+    </div>
+    }
+    <div class="networks__content__spacer"></div>
+    <div class="networks__content__actions">
+      <p-button
+        (click)="addNetwork()"
+        severity="secondary"
+        label="Add network"
+      ></p-button>
+      <div>
+        @if (isSaved() === false) {
+        <span>There are unsaved changes</span>
+        }
+        <p-button
+          (click)="saveNetworks()"
+          [disabled]="!networksForm.valid || isSaved() || saving()"
+          label="Save"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</div>

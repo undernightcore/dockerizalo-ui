@@ -16,6 +16,8 @@ import { unsavedPortsGuard } from './pages/dashboard/pages/detail/pages/ports/gu
 import { VariablesComponent } from './pages/dashboard/pages/detail/pages/variables/variables.component';
 import { unsavedVariablesGuard } from './pages/dashboard/pages/detail/pages/variables/guards/unsaved.guard';
 import { TokensComponent } from './pages/dashboard/pages/settings/pages/tokens/tokens.component';
+import { NetworksComponent } from './pages/dashboard/pages/detail/pages/networks/networks.component';
+import { unsavedNetworksGuard } from './pages/dashboard/pages/detail/pages/networks/guards/unsaved.guard';
 
 export const routes: Routes = [
   {
@@ -67,6 +69,11 @@ export const routes: Routes = [
             path: 'variables',
             component: VariablesComponent,
             canDeactivate: [unsavedVariablesGuard],
+          },
+          {
+            path: 'networks',
+            component: NetworksComponent,
+            canDeactivate: [unsavedNetworksGuard],
           },
         ],
       },

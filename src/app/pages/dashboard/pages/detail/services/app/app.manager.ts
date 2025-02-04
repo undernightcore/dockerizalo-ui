@@ -23,6 +23,8 @@ import { PortsService } from '../../../../../../services/ports/ports.service';
 import { PortInterface } from '../../../../../../interfaces/ports.interface';
 import { VariablesService } from '../../../../../../services/variables/variables.service';
 import { VariableInterface } from '../../../../../../interfaces/variable.interface';
+import { NetworksService } from '../../../../../../services/networks/networks.service';
+import { NetworkInterface } from '../../../../../../interfaces/network.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +36,7 @@ export class AppManagerService {
   #volumesService = inject(VolumesService);
   #portsService = inject(PortsService);
   #variablesService = inject(VariablesService);
+  #networksService = inject(NetworksService);
 
   #appId = this.#router.events.pipe(
     startWith(true),
@@ -124,6 +127,17 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  #resetNetworks = new Subject<void>();
+  networks$ = this.#appId.pipe(
+    switchMap((appId) =>
+      this.#resetNetworks.pipe(
+        startWith(true),
+        switchMap(() => this.#networksService.getNetworks(appId))
+      )
+    ),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   startApp() {
     return this.app$.pipe(
       take(1),
@@ -192,6 +206,14 @@ export class AppManagerService {
         this.#variablesService.saveVariables(app.id, variables)
       ),
       tap(() => this.#resetVariables.next())
+    );
+  }
+
+  saveNetworks(networks: Omit<NetworkInterface, 'id' | 'appId'>[]) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) => this.#networksService.saveNetworks(app.id, networks)),
+      tap(() => this.#resetNetworks.next())
     );
   }
 }
