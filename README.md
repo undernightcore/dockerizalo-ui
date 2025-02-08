@@ -1,59 +1,76 @@
-# DockerizaloUi
+<div align="center">
+    <img alt="dockerizalo" height="200px" src="https://github.com/undernightcore/dockerizalo-ui/blob/assets/dockerizalo.png?raw=true">
+</div>
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+# Dockerizalo
 
-## Development server
+The simplest deployment platform made for self-hosters.
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
+- Clones from any GIT compatible source, builds and deploys the image for you.
+- Manage secrets, volumes, ports and more through the web UI.
+- Check build and container logs in realtime.
+- Made to coexist with the rest of your applications in your homelab
+
+## Install with Docker compose
+
+```yaml
+services:
+  proxy:
+    image: ghcr.io/undernightcore/dockerizalo-proxy:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api
+      - ui
+  api:
+    image: ghcr.io/undernightcore/dockerizalo:latest
+    volumes:
+      - ./apps:/data/dockerizalo
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      DATABASE_URL: postgresql://dockerizalo:dockerizalo@db:5432/dockerizalo?schema=public
+      APP_SECRET: hitthekeyboardwithyourheadhere
+    depends_on:
+      - db
+  ui:
+    image: ghcr.io/undernightcore/dockerizalo-ui:latest
+  db:
+    image: postgres
+    restart: unless-stopped
+    volumes:
+      - ./pg:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: dockerizalo
+      POSTGRES_USER: dockerizalo
+      POSTGRES_DB: dockerizalo
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Screenshots
 
-## Code scaffolding
+![Home](https://github.com/undernightcore/dockerizalo-ui/blob/assets/home.png?raw=true)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+![Builds](https://github.com/undernightcore/dockerizalo-ui/blob/assets/builds.png?raw=true)
 
-```bash
-ng generate component component-name
-```
+![Ports](https://github.com/undernightcore/dockerizalo-ui/blob/assets/ports.png?raw=true)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+![Tokens](https://github.com/undernightcore/dockerizalo-ui/blob/assets/tokens.png?raw=true)
 
-```bash
-ng generate --help
-```
+## FAQ
 
-## Building
+### Does it come with an HTTPs reverse proxy?
 
-To build the project run:
+Nope! Dockerizalo is truly made to coexist with your other apps, so it assumes you already have your own favorite proxy. Dockerizalo only deploys the apps using the port you tell him to, it is your responsibility to put a reverse proxy in front.
 
-```bash
-ng build
-```
+### Is this Docker in Docker?
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Nope! If you look closely at the docker-compose.yml file for Dockerizalo it uses you Docker installation for deploying the applications.
 
-## Running unit tests
+### Where are the applications stored?
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Wherever you configure in the Dockerizalo docker-compose.yml file. By default in the "apps" folder inside the same directory.
 
-```bash
-ng test
-```
+### Does it redeploy automatically after pushing to the source GIT repository?
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+By default, no. There is an API endpoint that builds a new version under the `POST /api/apps/{appId}/builds` route. You can configure a Webhook and call that endpoint from any service.
