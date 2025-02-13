@@ -97,6 +97,12 @@
         [severity]="route() === 'networks' ? 'primary' : 'secondary'"
         icon="pi pi-sitemap"
       ></p-button>
+      <p-button
+        [routerLink]="['/apps', app()?.id, 'labels']"
+        label="Labels"
+        [severity]="route() === 'labels' ? 'primary' : 'secondary'"
+        icon="pi pi-tag"
+      ></p-button>
     </div>
     <div>
       <div class="detail__menu__spacer"></div>

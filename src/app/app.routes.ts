@@ -18,6 +18,8 @@ import { unsavedVariablesGuard } from './pages/dashboard/pages/detail/pages/vari
 import { TokensComponent } from './pages/dashboard/pages/settings/pages/tokens/tokens.component';
 import { NetworksComponent } from './pages/dashboard/pages/detail/pages/networks/networks.component';
 import { unsavedNetworksGuard } from './pages/dashboard/pages/detail/pages/networks/guards/unsaved.guard';
+import { LabelsComponent } from './pages/dashboard/pages/detail/pages/labels/labels.component';
+import { unsavedLabelsGuard } from './pages/dashboard/pages/detail/pages/labels/guards/unsaved.guard';
 
 export const routes: Routes = [
   {
@@ -74,6 +76,11 @@ export const routes: Routes = [
             path: 'networks',
             component: NetworksComponent,
             canDeactivate: [unsavedNetworksGuard],
+          },
+          {
+            path: 'labels',
+            component: LabelsComponent,
+            canDeactivate: [unsavedLabelsGuard],
           },
         ],
       },

@@ -1,0 +1,68 @@
+<div class="labels">
+  <h1>Labels</h1>
+  <div class="labels__content">
+    @if (app()?.status === 'running') {
+    <p-message severity="warn"
+      >Any changes made to a running app require a full restart</p-message
+    >
+    } @if (labelsForm.hasError('conflicting')) {
+    <p-message severity="error">All label keys must be unique</p-message>
+    } @if (labelsForm.controls.length) {
+    <div class="labels__content__list">
+      @for (label of labelsForm.controls; track $index) {
+      <div class="labels__content__list__item">
+        <div class="labels__content__list__item__form">
+          <div>
+            <label>Key</label>
+            <input
+              pInputText
+              [formControl]="label.controls.key"
+              autocomplete="off"
+            />
+          </div>
+          <div>
+            <label>Value</label>
+            <input
+              pInputText
+              [formControl]="label.controls.value"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+        <div class="labels__content__list__item__actions">
+          <p-button
+            (click)="deleteLabel($index)"
+            size="large"
+            severity="danger"
+            icon="pi pi-trash"
+          />
+        </div>
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="labels__content__empty">
+      <i class="pi pi-tag"></i>
+      <span>No labels</span>
+    </div>
+    }
+    <div class="labels__content__spacer"></div>
+    <div class="labels__content__actions">
+      <p-button
+        (click)="addLabel()"
+        severity="secondary"
+        label="Add label"
+      ></p-button>
+      <div>
+        @if (isSaved() === false) {
+        <span>There are unsaved changes</span>
+        }
+        <p-button
+          (click)="saveLabels()"
+          [disabled]="!labelsForm.valid || isSaved() || saving()"
+          label="Save"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</div>
