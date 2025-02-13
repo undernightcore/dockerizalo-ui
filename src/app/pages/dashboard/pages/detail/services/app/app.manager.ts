@@ -25,6 +25,8 @@ import { VariablesService } from '../../../../../../services/variables/variables
 import { VariableInterface } from '../../../../../../interfaces/variable.interface';
 import { NetworksService } from '../../../../../../services/networks/networks.service';
 import { NetworkInterface } from '../../../../../../interfaces/network.interface';
+import { LabelsService } from '../../../../../../services/labels/labels.service';
+import { LabelInterface } from '../../../../../../interfaces/label.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +39,7 @@ export class AppManagerService {
   #portsService = inject(PortsService);
   #variablesService = inject(VariablesService);
   #networksService = inject(NetworksService);
+  #labelsService = inject(LabelsService);
 
   #appId = this.#router.events.pipe(
     startWith(true),
@@ -138,6 +141,17 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  #resetLabels = new Subject<void>();
+  labels$ = this.#appId.pipe(
+    switchMap((appId) =>
+      this.#resetLabels.pipe(
+        startWith(true),
+        switchMap(() => this.#labelsService.getLabels(appId))
+      )
+    ),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   startApp() {
     return this.app$.pipe(
       take(1),
@@ -214,6 +228,14 @@ export class AppManagerService {
       take(1),
       switchMap((app) => this.#networksService.saveNetworks(app.id, networks)),
       tap(() => this.#resetNetworks.next())
+    );
+  }
+
+  saveLabels(labels: Omit<LabelInterface, 'id' | 'appId'>[]) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) => this.#labelsService.saveLabels(app.id, labels)),
+      tap(() => this.#resetLabels.next())
     );
   }
 }
