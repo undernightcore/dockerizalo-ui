@@ -49,18 +49,49 @@
             ></p-select>
           </div>
         </div>
-        <div class="home__content__panel__actions">
-          <p-button
-            (click)="saveApp()"
-            [disabled]="!appForm.valid || saving() || !unsaved()"
-            >Save</p-button
-          >
-          @if (unsaved()) {
-          <span>There are unsaved changes</span>
-          }
+      </div>
+    </p-panel>
+    <p-panel header="Dockerfile settings">
+      <div class="home__content__panel">
+        <p-message severity="info"
+          >The directory "/" is the root of the cloned repository</p-message
+        >
+        <div class="home__content__panel__form">
+          <div>
+            <label for="contextPath">Dockerfile context</label>
+            <input
+              [formControl]="appForm.controls.contextPath"
+              pInputText
+              placeholder="/"
+              id="contextPath"
+              pTooltip="COPY and ADD commands inside your Dockerfile are relative to this"
+              tooltipPosition="bottom"
+            />
+          </div>
+          <div>
+            <label for="filePath">Dockerfile path</label>
+            <input
+              [formControl]="appForm.controls.filePath"
+              pInputText
+              placeholder="/Dockerfile"
+              id="filePath"
+              pTooltip="The path to your Dockerfile"
+              tooltipPosition="bottom"
+            />
+          </div>
         </div>
       </div>
     </p-panel>
+    <div class="home__content__actions">
+      <p-button
+        (click)="saveApp()"
+        [disabled]="!appForm.valid || saving() || !unsaved()"
+        >Save</p-button
+      >
+      @if (unsaved()) {
+      <span>There are unsaved changes</span>
+      }
+    </div>
     } @else {
     <p-skeleton height="190.5px"></p-skeleton>
     } @if (logs()) {
