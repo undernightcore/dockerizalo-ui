@@ -5,5 +5,7 @@ export interface AppInterface {
   repository: string;
   branch: string;
   status: string;
+  contextPath?: string;
+  filePath?: string;
   tokenId: string | null;
 }

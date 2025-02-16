@@ -31,15 +31,21 @@
           min-width: 210px;
         }
       }
+    }
 
-      &__actions {
-        display: flex;
-        align-items: center;
-        gap: 16px;
+    &__actions {
+      border: 1px solid var(--p-panel-border-color);
+      border-radius: var(--p-panel-border-radius);
+      background: var(--p-panel-background);
+      color: var(--p-panel-color);
+      padding: 1.125rem;
 
-        & > span {
-          color: var(--p-form-field-disabled-color);
-        }
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      & > span {
+        color: var(--p-form-field-disabled-color);
       }
     }
 

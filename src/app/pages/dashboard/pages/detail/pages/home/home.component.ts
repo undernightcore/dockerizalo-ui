@@ -25,6 +25,7 @@ import { elementReady } from '../../../../../../utils/dom.utils';
 import { SelectModule } from 'primeng/select';
 import { TokensService } from '../../../../../../services/tokens/tokens.service';
 import { urlValidator } from '../../../../validators/url.validator';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-home',
@@ -37,6 +38,7 @@ import { urlValidator } from '../../../../validators/url.validator';
     SkeletonModule,
     CheckboxModule,
     SelectModule,
+    TooltipModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -55,6 +57,8 @@ export class HomeComponent {
       Validators.required,
       urlValidator,
     ]),
+    contextPath: new FormControl<string | null>(null),
+    filePath: new FormControl<string | null>(null),
     branch: new FormControl<string | null>(null, [Validators.required]),
     tokenId: new FormControl<string | null>(null),
   });
@@ -95,6 +99,8 @@ export class HomeComponent {
           (form.description || null) !== (app.description || null) ||
           form.branch !== app.branch ||
           form.repository !== app.repository ||
+          (form.contextPath || null) !== (app.contextPath || null) ||
+          (form.filePath || null) !== (app.filePath || null) ||
           (form.tokenId || null) !== (app.tokenId || null)
       )
     )
@@ -125,6 +131,8 @@ export class HomeComponent {
         description: this.appForm.value.description || null,
         branch: String(this.appForm.value.branch),
         repository: String(this.appForm.value.repository),
+        contextPath: this.appForm.value.contextPath || undefined,
+        filePath: this.appForm.value.filePath || undefined,
         tokenId: this.appForm.value.tokenId || null,
       })
       .pipe(
