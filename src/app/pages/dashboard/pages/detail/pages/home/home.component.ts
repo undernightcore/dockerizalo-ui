@@ -26,6 +26,7 @@ import { SelectModule } from 'primeng/select';
 import { TokensService } from '../../../../../../services/tokens/tokens.service';
 import { urlValidator } from '../../../../validators/url.validator';
 import { TooltipModule } from 'primeng/tooltip';
+import { removeTerminalCodes } from '../../../../../../utils/terminal.utils';
 
 @Component({
   selector: 'app-home',
@@ -73,6 +74,7 @@ export class HomeComponent {
 
   logs = toSignal(
     this.#appManager.logs$.pipe(
+      map(removeTerminalCodes),
       tap(
         () =>
           this.followForm.value &&

@@ -4,9 +4,11 @@ import { AppManagerService } from '../../../../services/app/app.manager';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { elementReady } from '../../../../../../../../utils/dom.utils';
-import { filter, startWith, switchMap, tap } from 'rxjs';
+import { filter, map, startWith, switchMap, tap } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
+import { BuildInterface } from '../../../../../../../../interfaces/build.interface';
+import { removeTerminalCodes } from '../../../../../../../../utils/terminal.utils';
 
 @Component({
   selector: 'app-builds-detail',
@@ -24,6 +26,9 @@ export class BuildsDetailComponent {
 
   build = toSignal(
     this.#appManager.build$.pipe(
+      map((build): BuildInterface | undefined =>
+        build ? { ...build, log: removeTerminalCodes(build.log) } : undefined
+      ),
       tap(
         () =>
           this.followForm.value &&
