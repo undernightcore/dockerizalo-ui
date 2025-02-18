@@ -58,8 +58,14 @@ export class HomeComponent {
       Validators.required,
       urlValidator,
     ]),
-    contextPath: new FormControl<string | null>(null),
-    filePath: new FormControl<string | null>(null),
+    contextPath: new FormControl<string | null>(
+      null,
+      Validators.pattern(/^(?!$)(\/(?!\.{1,2}(?:\/|$))[^\s\/]+)*\/?$/)
+    ),
+    filePath: new FormControl<string | null>(
+      null,
+      Validators.pattern(/^(?!$)(\/(?!\.{1,2}(?:\/|$))[^\s\/]+)*\/?$/)
+    ),
     branch: new FormControl<string | null>(null, [Validators.required]),
     tokenId: new FormControl<string | null>(null),
   });
