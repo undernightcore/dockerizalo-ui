@@ -16,6 +16,7 @@ import { PortInterface } from '../../../../../../interfaces/ports.interface';
 import { MessageService } from 'primeng/api';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { uniquePortsValidator } from './validators/unique-ports.validator';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-ports',
@@ -24,6 +25,7 @@ import { uniquePortsValidator } from './validators/unique-ports.validator';
     MessageModule,
     ReactiveFormsModule,
     InputNumberModule,
+    FloatLabelModule,
   ],
   templateUrl: './ports.component.html',
   styleUrl: './ports.component.scss',

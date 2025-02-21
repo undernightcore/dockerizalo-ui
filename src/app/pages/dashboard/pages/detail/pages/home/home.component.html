@@ -1,85 +1,106 @@
 <div class="home">
   <h1>Home</h1>
   <div class="home__content">
-    @if (app()?.status === 'running') {
-    <p-message severity="warn"
-      >Any changes made to a running app require a full restart</p-message
-    >
-    } @if (app()) {
+    @if (app()) { @if (app()?.status === 'running') {
+    <p-panel header="Warnings">
+      <div class="home__content__panel">
+        <p-message severity="warn"
+          >Any changes made to a running app require a full restart</p-message
+        >
+      </div>
+    </p-panel>
+
+    }
     <p-panel header="Main settings">
       <div class="home__content__panel">
         <div class="home__content__panel__form">
           <div>
-            <label for="name">Name</label>
-            <input [formControl]="appForm.controls.name" pInputText id="name" />
+            <p-floatlabel variant="on">
+              <label for="name">Name</label>
+              <input
+                [formControl]="appForm.controls.name"
+                pInputText
+                id="name"
+              />
+            </p-floatlabel>
           </div>
           <div>
-            <label for="description">Description</label>
-            <input
-              [formControl]="appForm.controls.description"
-              pInputText
-              id="description"
-            />
+            <p-floatlabel variant="on">
+              <label for="description">Description</label>
+              <input
+                [formControl]="appForm.controls.description"
+                pInputText
+                id="description"
+              />
+            </p-floatlabel>
           </div>
           <div>
-            <label for="repository">Repository</label>
-            <input
-              [formControl]="appForm.controls.repository"
-              pInputText
-              id="repository"
-            />
+            <p-floatlabel variant="on">
+              <label for="repository">Repository</label>
+              <input
+                [formControl]="appForm.controls.repository"
+                pInputText
+                id="repository"
+              />
+            </p-floatlabel>
           </div>
           <div>
-            <label for="branch">Branch</label>
-            <input
-              [formControl]="appForm.controls.branch"
-              pInputText
-              id="branch"
-            />
+            <p-floatlabel variant="on">
+              <label for="branch">Branch</label>
+              <input
+                [formControl]="appForm.controls.branch"
+                pInputText
+                id="branch"
+              />
+            </p-floatlabel>
           </div>
           <div>
-            <label for="tokenId">Token</label>
-            <p-select
-              [showClear]="true"
-              optionValue="id"
-              optionLabel="name"
-              [options]="tokens()"
-              [formControl]="appForm.controls.tokenId"
-              id="tokenId"
-            ></p-select>
+            <p-floatlabel variant="on">
+              <p-select
+                [showClear]="true"
+                optionValue="id"
+                optionLabel="name"
+                [options]="tokens()"
+                [formControl]="appForm.controls.tokenId"
+                id="tokenId"
+              ></p-select>
+              <label for="tokenId">Token</label>
+            </p-floatlabel>
           </div>
         </div>
       </div>
     </p-panel>
     <p-panel header="Dockerfile settings">
       <div class="home__content__panel">
+        <div class="home__content__panel__form">
+          <div>
+            <p-floatlabel variant="on">
+              <label for="contextPath">Dockerfile context</label>
+              <input
+                [formControl]="appForm.controls.contextPath"
+                pInputText
+                id="contextPath"
+                pTooltip="COPY and ADD commands inside your Dockerfile are relative to this"
+                tooltipPosition="bottom"
+              />
+            </p-floatlabel>
+          </div>
+          <div>
+            <p-floatlabel variant="on">
+              <label for="filePath">Dockerfile path</label>
+              <input
+                [formControl]="appForm.controls.filePath"
+                pInputText
+                id="filePath"
+                pTooltip="The path to your Dockerfile"
+                tooltipPosition="bottom"
+              />
+            </p-floatlabel>
+          </div>
+        </div>
         <p-message severity="info"
           >The directory "/" is the root of the cloned repository</p-message
         >
-        <div class="home__content__panel__form">
-          <div>
-            <label for="contextPath">Dockerfile context</label>
-            <input
-              [formControl]="appForm.controls.contextPath"
-              pInputText
-              placeholder="/"
-              id="contextPath"
-              pTooltip="COPY and ADD commands inside your Dockerfile are relative to this"
-              tooltipPosition="bottom"
-            />
-          </div>
-          <div>
-            <label for="filePath">Dockerfile path</label>
-            <input
-              [formControl]="appForm.controls.filePath"
-              pInputText
-              placeholder="/Dockerfile"
-              id="filePath"
-              pTooltip="The path to your Dockerfile"
-              tooltipPosition="bottom"
-            />
-          </div>
-        </div>
       </div>
     </p-panel>
     <div class="home__content__actions">

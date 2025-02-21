@@ -11,20 +11,24 @@
       <div class="volumes__content__list__item">
         <div class="volumes__content__list__item__form">
           <div>
-            <label>Host</label>
-            <input
-              pInputText
-              [formControl]="volume.controls.host"
-              autocomplete="off"
-            />
+            <p-floatlabel variant="on">
+              <label>Host</label>
+              <input
+                pInputText
+                [formControl]="volume.controls.host"
+                autocomplete="off"
+              />
+            </p-floatlabel>
           </div>
           <div>
-            <label>Internal</label>
-            <input
-              pInputText
-              [formControl]="volume.controls.internal"
-              autocomplete="off"
-            />
+            <p-floatlabel variant="on">
+              <label>Internal</label>
+              <input
+                pInputText
+                [formControl]="volume.controls.internal"
+                autocomplete="off"
+              />
+            </p-floatlabel>
           </div>
         </div>
         <div class="volumes__content__list__item__actions">

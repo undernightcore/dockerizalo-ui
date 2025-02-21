@@ -18,6 +18,7 @@ import { VariableInterface } from '../../../../../../interfaces/variable.interfa
 import { uniqueVariablesValidator } from './validators/unique-variables.validator';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-variables',
@@ -28,6 +29,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
     MessageModule,
     ToggleSwitchModule,
     TooltipModule,
+    FloatLabelModule,
   ],
   templateUrl: './variables.component.html',
   styleUrl: './variables.component.scss',

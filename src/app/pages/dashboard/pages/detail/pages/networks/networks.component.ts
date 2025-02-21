@@ -19,6 +19,7 @@ import { combineLatest, map, startWith, tap } from 'rxjs';
 import { toMap } from '../../../../../../utils/array.utils';
 import { NetworkInterface } from '../../../../../../interfaces/network.interface';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-networks',
@@ -29,6 +30,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
     MessageModule,
     ToggleSwitchModule,
     TooltipModule,
+    FloatLabelModule,
   ],
   templateUrl: './networks.component.html',
   styleUrl: './networks.component.scss',

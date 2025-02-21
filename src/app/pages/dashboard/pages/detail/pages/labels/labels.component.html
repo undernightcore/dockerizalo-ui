@@ -13,20 +13,24 @@
       <div class="labels__content__list__item">
         <div class="labels__content__list__item__form">
           <div>
-            <label>Key</label>
-            <input
-              pInputText
-              [formControl]="label.controls.key"
-              autocomplete="off"
-            />
+            <p-floatlabel variant="on">
+              <label>Key</label>
+              <input
+                pInputText
+                [formControl]="label.controls.key"
+                autocomplete="off"
+              />
+            </p-floatlabel>
           </div>
           <div>
-            <label>Value</label>
-            <input
-              pInputText
-              [formControl]="label.controls.value"
-              autocomplete="off"
-            />
+            <p-floatlabel variant="on">
+              <label>Value</label>
+              <input
+                pInputText
+                [formControl]="label.controls.value"
+                autocomplete="off"
+              />
+            </p-floatlabel>
           </div>
         </div>
         <div class="labels__content__list__item__actions">

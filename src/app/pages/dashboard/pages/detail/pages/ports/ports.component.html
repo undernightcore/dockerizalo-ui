@@ -13,22 +13,26 @@
       <div class="ports__content__list__item">
         <div class="ports__content__list__item__form">
           <div>
-            <label>External</label>
-            <p-inputnumber
-              [useGrouping]="false"
-              [min]="1"
-              [max]="65535"
-              [formControl]="port.controls.external"
-            />
+            <p-floatlabel variant="on">
+              <p-inputnumber
+                [useGrouping]="false"
+                [min]="1"
+                [max]="65535"
+                [formControl]="port.controls.external"
+              />
+              <label>External</label>
+            </p-floatlabel>
           </div>
           <div>
-            <label>Internal</label>
-            <p-inputnumber
-              [useGrouping]="false"
-              [min]="1"
-              [max]="65535"
-              [formControl]="port.controls.internal"
-            />
+            <p-floatlabel variant="on">
+              <p-inputnumber
+                [useGrouping]="false"
+                [min]="1"
+                [max]="65535"
+                [formControl]="port.controls.internal"
+              />
+              <label>Internal</label>
+            </p-floatlabel>
           </div>
         </div>
         <div class="ports__content__list__item__actions">

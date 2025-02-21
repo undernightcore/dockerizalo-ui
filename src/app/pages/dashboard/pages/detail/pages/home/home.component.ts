@@ -27,6 +27,7 @@ import { TokensService } from '../../../../../../services/tokens/tokens.service'
 import { urlValidator } from '../../../../validators/url.validator';
 import { TooltipModule } from 'primeng/tooltip';
 import { removeTerminalCodes } from '../../../../../../utils/terminal.utils';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-home',
@@ -40,6 +41,7 @@ import { removeTerminalCodes } from '../../../../../../utils/terminal.utils';
     CheckboxModule,
     SelectModule,
     TooltipModule,
+    FloatLabelModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

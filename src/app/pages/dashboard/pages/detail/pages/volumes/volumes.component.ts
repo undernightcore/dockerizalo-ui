@@ -15,10 +15,17 @@ import { toMap } from '../../../../../../utils/array.utils';
 import { MessageModule } from 'primeng/message';
 import { VolumeInterface } from '../../../../../../interfaces/volume.interface';
 import { MessageService } from 'primeng/api';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-volumes',
-  imports: [ButtonModule, InputTextModule, ReactiveFormsModule, MessageModule],
+  imports: [
+    ButtonModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    MessageModule,
+    FloatLabelModule,
+  ],
   templateUrl: './volumes.component.html',
   styleUrl: './volumes.component.scss',
 })

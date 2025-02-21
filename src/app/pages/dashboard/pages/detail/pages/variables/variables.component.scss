@@ -3,7 +3,7 @@
   flex-direction: column;
   height: 100%;
   width: fit-content;
-  min-width: 660px;
+  min-width: 707px;
 
   &__content {
     height: 100%;
@@ -34,7 +34,7 @@
 
           & > div {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 8px;
 
             & > div {

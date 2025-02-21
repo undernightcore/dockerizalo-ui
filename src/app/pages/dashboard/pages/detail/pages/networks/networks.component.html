@@ -13,12 +13,14 @@
       <div class="networks__content__list__item">
         <div class="networks__content__list__item__form">
           <div>
-            <label>Name</label>
-            <input
-              pInputText
-              [formControl]="network.controls.name"
-              autocomplete="off"
-            />
+            <p-floatLabel variant="on">
+              <label>Name</label>
+              <input
+                pInputText
+                [formControl]="network.controls.name"
+                autocomplete="off"
+              />
+            </p-floatLabel>
           </div>
           <div>
             <div>

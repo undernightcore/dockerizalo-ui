@@ -29,6 +29,14 @@
           flex-direction: column;
           gap: 0.5rem;
           min-width: 210px;
+
+          & > p-floatlabel {
+            width: 100%;
+
+            & > p-select {
+              width: 100%;
+            }
+          }
         }
       }
     }

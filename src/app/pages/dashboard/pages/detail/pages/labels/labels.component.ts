@@ -16,10 +16,17 @@ import { LabelInterface } from '../../../../../../interfaces/label.interface';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-labels',
-  imports: [ButtonModule, InputTextModule, ReactiveFormsModule, MessageModule],
+  imports: [
+    ButtonModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    MessageModule,
+    FloatLabelModule,
+  ],
   templateUrl: './labels.component.html',
   styleUrl: './labels.component.scss',
 })
