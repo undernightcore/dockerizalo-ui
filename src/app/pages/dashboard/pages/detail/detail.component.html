@@ -43,13 +43,14 @@
             severity="secondary"
             icon="pi pi-play"
           />
-          }
+          } @if (app()?.mode === "REPOSITORY") {
           <p-button
             [disabled]="waiting()"
             (click)="createBuild()"
             severity="secondary"
             icon="pi pi-hammer"
           />
+          }
         </div>
         } @else {
         <p-skeleton height="24px"></p-skeleton>
@@ -67,12 +68,14 @@
         [severity]="route() === undefined ? 'primary' : 'secondary'"
         icon="pi pi-home"
       ></p-button>
+      @if (app()?.mode === 'REPOSITORY') {
       <p-button
         [routerLink]="['/apps', app()?.id, 'builds']"
         label="Builds"
         [severity]="route() === 'builds' ? 'primary' : 'secondary'"
         icon="pi pi-hammer"
       ></p-button>
+      }
       <p-button
         [routerLink]="['/apps', app()?.id, 'volumes']"
         label="Volumes"

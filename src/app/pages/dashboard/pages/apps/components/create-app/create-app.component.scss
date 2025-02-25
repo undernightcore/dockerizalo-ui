@@ -4,6 +4,21 @@
   gap: 16px;
   min-width: 412px;
 
+  &__mode {
+    display: flex;
+    gap: 16px;
+
+    & > p-button {
+      width: 100%;
+
+      &::ng-deep {
+        & > button {
+          width: 100%;
+        }
+      }
+    }
+  }
+
   &__form {
     display: flex;
     flex-direction: column;

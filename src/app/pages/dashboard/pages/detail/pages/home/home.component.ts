@@ -55,19 +55,21 @@ export class HomeComponent {
 
   appForm = new FormGroup({
     name: new FormControl<string | null>(null, [Validators.required]),
+    mode: new FormControl<'REPOSITORY' | 'IMAGE'>('REPOSITORY'),
     description: new FormControl<string | null>(null),
     repository: new FormControl<string | null>(null, [
       Validators.required,
       urlValidator,
     ]),
-    contextPath: new FormControl<string | null>(
-      null,
-      Validators.pattern(/^(?!$)(\/(?!\.{1,2}(?:\/|$))[^\s\/]+)*\/?$/)
-    ),
-    filePath: new FormControl<string | null>(
-      null,
-      Validators.pattern(/^(?!$)(\/(?!\.{1,2}(?:\/|$))[^\s\/]+)*\/?$/)
-    ),
+    contextPath: new FormControl<string | null>(null, [
+      Validators.pattern(/^(?!$)(\/(?!\.{1,2}(?:\/|$))[^\s\/]+)*\/?$/),
+    ]),
+    filePath: new FormControl<string | null>(null, [
+      Validators.pattern(/^(?!$)(\/(?!\.{1,2}(?:\/|$))[^\s\/]+)*\/?$/),
+    ]),
+    image: new FormControl<string | null>({ value: null, disabled: true }, [
+      Validators.required,
+    ]),
     branch: new FormControl<string | null>(null, [Validators.required]),
     tokenId: new FormControl<string | null>(null),
   });
@@ -106,9 +108,11 @@ export class HomeComponent {
       map(
         ([form, app]) =>
           form.name !== app.name ||
+          form.mode !== app.mode ||
           (form.description || null) !== (app.description || null) ||
-          form.branch !== app.branch ||
-          form.repository !== app.repository ||
+          (form.branch || null) !== (app.branch || null) ||
+          (form.repository || null) !== (app.repository || null) ||
+          (form.image || null) !== (app.image || null) ||
           (form.contextPath || null) !== (app.contextPath || null) ||
           (form.filePath || null) !== (app.filePath || null) ||
           (form.tokenId || null) !== (app.tokenId || null)
@@ -132,15 +136,38 @@ export class HomeComponent {
     )
   );
 
+  _enableModeFieldsEffect = toSignal(
+    this.appForm.controls.mode.valueChanges.pipe(
+      startWith(this.appForm.controls.mode.value),
+      tap((mode) => {
+        if (mode === 'REPOSITORY') {
+          this.appForm.controls.image.disable();
+          this.appForm.controls.repository.enable();
+          this.appForm.controls.branch.enable();
+          this.appForm.controls.contextPath.enable();
+          this.appForm.controls.filePath.enable();
+        } else if (mode === 'IMAGE') {
+          this.appForm.controls.image.enable();
+          this.appForm.controls.repository.disable();
+          this.appForm.controls.branch.disable();
+          this.appForm.controls.contextPath.disable();
+          this.appForm.controls.filePath.disable();
+        }
+      })
+    )
+  );
+
   saveApp() {
     if (!this.appForm.valid) return;
 
     this.#appManager
       .updateApp({
         name: String(this.appForm.value.name),
+        mode: this.appForm.value.mode as 'REPOSITORY' | 'IMAGE',
         description: this.appForm.value.description || null,
-        branch: String(this.appForm.value.branch),
-        repository: String(this.appForm.value.repository),
+        branch: this.appForm.value.branch || null,
+        repository: this.appForm.value.repository || null,
+        image: this.appForm.value.image || null,
         contextPath: this.appForm.value.contextPath || undefined,
         filePath: this.appForm.value.filePath || undefined,
         tokenId: this.appForm.value.tokenId || null,

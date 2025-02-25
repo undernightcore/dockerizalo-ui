@@ -30,6 +30,16 @@
           gap: 0.5rem;
           min-width: 210px;
 
+          & > p-button {
+            width: 100%;
+
+            &::ng-deep {
+              & > button {
+                width: 100%;
+              }
+            }
+          }
+
           & > p-floatlabel {
             width: 100%;
 

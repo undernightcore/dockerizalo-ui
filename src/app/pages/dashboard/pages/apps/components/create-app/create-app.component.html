@@ -1,5 +1,23 @@
 <div class="create">
   <p-message severity="warn">You can change these settings later</p-message>
+  <div class="create__mode">
+    <p-button
+      label="Repository"
+      [severity]="
+        appForm.controls.mode.value === 'REPOSITORY' ? 'primary' : 'secondary'
+      "
+      (click)="appForm.controls.mode.setValue('REPOSITORY')"
+      icon="pi pi-cloud-download"
+    ></p-button>
+    <p-button
+      label="Image"
+      [severity]="
+        appForm.controls.mode.value === 'IMAGE' ? 'primary' : 'secondary'
+      "
+      (click)="appForm.controls.mode.setValue('IMAGE')"
+      icon="pi pi-box"
+    ></p-button>
+  </div>
   <div class="create__form">
     <p-floatlabel variant="on">
       <input
@@ -19,6 +37,7 @@
       />
       <label for="description">Description</label>
     </p-floatlabel>
+    @if (appForm.controls.mode.value === 'REPOSITORY') {
     <p-floatlabel variant="on">
       <input
         [formControl]="appForm.controls.repository"
@@ -37,6 +56,17 @@
       />
       <label for="branch">Branch</label>
     </p-floatlabel>
+    } @else if (appForm.controls.mode.value === 'IMAGE') {
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="appForm.controls.image"
+        pInputText
+        id="image"
+        autocomplete="off"
+      />
+      <label for="image">Image</label>
+    </p-floatlabel>
+    }
   </div>
   <div class="create__actions">
     <p-button [disabled]="!appForm.valid" (click)="ref.close(appForm.value)"

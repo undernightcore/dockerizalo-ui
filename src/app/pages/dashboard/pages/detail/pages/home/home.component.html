@@ -9,7 +9,6 @@
         >
       </div>
     </p-panel>
-
     }
     <p-panel header="Main settings">
       <div class="home__content__panel">
@@ -34,9 +33,46 @@
               />
             </p-floatlabel>
           </div>
+        </div>
+      </div>
+    </p-panel>
+    <p-panel header="Deploy from">
+      <div class="home__content__panel">
+        <div class="home__content__panel__form">
+          <div>
+            <p-button
+              label="Repository"
+              [severity]="
+                appForm.controls.mode.value === 'REPOSITORY'
+                  ? 'primary'
+                  : 'secondary'
+              "
+              (click)="appForm.controls.mode.setValue('REPOSITORY')"
+              icon="pi pi-cloud-download"
+            ></p-button>
+          </div>
+          <div>
+            <p-button
+              label="Image"
+              [severity]="
+                appForm.controls.mode.value === 'IMAGE'
+                  ? 'primary'
+                  : 'secondary'
+              "
+              (click)="appForm.controls.mode.setValue('IMAGE')"
+              icon="pi pi-box"
+            ></p-button>
+          </div>
+        </div>
+      </div>
+    </p-panel>
+    @if (appForm.controls.mode.value === 'REPOSITORY') {
+    <p-panel header="Repository settings">
+      <div class="home__content__panel">
+        <div class="home__content__panel__form">
           <div>
             <p-floatlabel variant="on">
-              <label for="repository">Repository</label>
+              <label for="repository">URL</label>
               <input
                 [formControl]="appForm.controls.repository"
                 pInputText
@@ -103,6 +139,37 @@
         >
       </div>
     </p-panel>
+    } @else if (appForm.controls.mode.value === 'IMAGE') {
+    <p-panel header="Image settings">
+      <div class="home__content__panel">
+        <div class="home__content__panel__form">
+          <div>
+            <p-floatlabel variant="on">
+              <label for="image">Image</label>
+              <input
+                [formControl]="appForm.controls.image"
+                pInputText
+                id="image"
+              />
+            </p-floatlabel>
+          </div>
+          <div>
+            <p-floatlabel variant="on">
+              <p-select
+                [showClear]="true"
+                optionValue="id"
+                optionLabel="name"
+                [options]="tokens()"
+                [formControl]="appForm.controls.tokenId"
+                id="tokenId"
+              ></p-select>
+              <label for="tokenId">Token</label>
+            </p-floatlabel>
+          </div>
+        </div>
+      </div>
+    </p-panel>
+    }
     <div class="home__content__actions">
       <p-button
         (click)="saveApp()"
