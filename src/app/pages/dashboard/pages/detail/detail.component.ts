@@ -47,18 +47,13 @@ export class DetailComponent {
   );
 
   app = toSignal(this.#appManager.app$);
+  deployment = toSignal(this.#appManager.deployment$);
 
   waiting = signal(false);
 
   building = toSignal(this.#appManager.isBuilding$);
 
   startApp() {
-    this.#toastService.add({
-      summary: 'Info',
-      detail: 'App is now starting...',
-      severity: 'info',
-    });
-
     this.#appManager
       .startApp()
       .pipe(

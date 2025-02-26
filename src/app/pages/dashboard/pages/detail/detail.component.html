@@ -7,6 +7,9 @@
           <h2>{{ app()?.name }}</h2>
         </div>
         <div class="detail__menu__info__status">
+          @if (deployment()) {
+          <p-badge [value]="'Deploying'" [severity]="'info'" />
+          } @else {
           <p-badge
             [value]="
               app()?.status === 'running'
@@ -25,27 +28,27 @@
           />
           @if (building()) {
           <p-badge [value]="'Building'" [severity]="'warn'" />
-          }
+          } }
         </div>
         <span>{{ app()?.description ?? "-" }}</span>
         <div class="detail__menu__info__actions">
           @if (app()?.status === 'running' || app()?.status === 'restarting') {
           <p-button
-            [disabled]="waiting()"
+            [disabled]="waiting() || deployment()"
             (click)="stopApp()"
             severity="secondary"
             icon="pi pi-pause"
           />
           } @else {
           <p-button
-            [disabled]="waiting()"
+            [disabled]="waiting() || deployment()"
             (click)="startApp()"
             severity="secondary"
             icon="pi pi-play"
           />
           } @if (app()?.mode === "REPOSITORY") {
           <p-button
-            [disabled]="waiting()"
+            [disabled]="waiting() || deployment()"
             (click)="createBuild()"
             severity="secondary"
             icon="pi pi-hammer"

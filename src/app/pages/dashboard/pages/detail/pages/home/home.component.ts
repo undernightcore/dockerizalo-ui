@@ -80,6 +80,8 @@ export class HomeComponent {
     this.#appManager.app$.pipe(tap((app) => this.appForm.patchValue(app)))
   );
 
+  deployment = toSignal(this.#appManager.deployment$);
+
   tokens = toSignal(this.#tokenService.getTokens());
 
   logs = toSignal(

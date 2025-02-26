@@ -65,6 +65,11 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  deployment$ = this.app$.pipe(
+    switchMap((app) => this.#appsService.getAppDeploymentLogs(app.id)),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   builds$ = this.#appId.pipe(
     switchMap((appId) => this.#buildsService.getBuilds(appId)),
     shareReplay({ refCount: true, bufferSize: 1 })

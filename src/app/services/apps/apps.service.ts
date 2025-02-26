@@ -36,6 +36,15 @@ export class AppsService {
       .pipe(map((json) => JSON.parse(json) as string));
   }
 
+  getAppDeploymentLogs(appId: string) {
+    return this.#sse
+      .stream(`${environment.apiUrl}/apps/${appId}/deployment/logs/realtime`, {
+        keepAlive: true,
+        responseType: 'text',
+      })
+      .pipe(map((json) => JSON.parse(json) as string | null));
+  }
+
   createApp(app: Omit<AppInterface, 'id' | 'status'>) {
     return this.#http.post<AppInterface>(`${environment.apiUrl}/apps`, app);
   }

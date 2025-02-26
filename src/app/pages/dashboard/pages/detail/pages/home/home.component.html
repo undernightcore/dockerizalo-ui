@@ -193,7 +193,7 @@
         <label for="follow">Follow logs</label>
       </div>
       <div #logElement class="home__content__logs">
-        <pre>{{ logs() }}</pre>
+        <pre>{{ deployment() ?? logs() }}</pre>
       </div>
     </p-panel>
     } @else {
