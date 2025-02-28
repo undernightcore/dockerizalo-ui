@@ -85,6 +85,14 @@
         [formControl]="appForm.controls.template"
         id="template"
       >
+        <ng-template #selectedItem let-selectedOption>
+          <div class="create__form__template__item">
+            <div class="create__form__template__item__title">
+              <img [src]="selectedOption.icon" style="width: 18px" />
+              <div>{{ selectedOption.name }}</div>
+            </div>
+          </div>
+        </ng-template>
         <ng-template let-template #item>
           <div class="create__form__template__item">
             <div class="create__form__template__item__title">
@@ -97,7 +105,7 @@
           </div>
         </ng-template>
       </p-select>
-      <label for="Template">Template</label>
+      <label for="template">Template</label>
     </p-floatlabel>
     }
   </div>
