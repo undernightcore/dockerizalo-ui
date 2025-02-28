@@ -5,29 +5,29 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
-import { PanelModule } from 'primeng/panel';
-import { AppManagerService } from '../../services/app/app.manager';
-import { combineLatest, filter, map, startWith, switchMap, tap } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { MessageModule } from 'primeng/message';
-import { ButtonModule } from 'primeng/button';
-import { SkeletonModule } from 'primeng/skeleton';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
-import { elementReady } from '../../../../../../utils/dom.utils';
-import { SelectModule } from 'primeng/select';
-import { TokensService } from '../../../../../../services/tokens/tokens.service';
-import { urlValidator } from '../../../../validators/url.validator';
-import { TooltipModule } from 'primeng/tooltip';
-import { removeTerminalCodes } from '../../../../../../utils/terminal.utils';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
+import { PanelModule } from 'primeng/panel';
+import { SelectModule } from 'primeng/select';
+import { SkeletonModule } from 'primeng/skeleton';
+import { TooltipModule } from 'primeng/tooltip';
+import { combineLatest, filter, map, startWith, switchMap, tap } from 'rxjs';
+import { TokensService } from '../../../../../../services/tokens/tokens.service';
+import { elementReady } from '../../../../../../utils/dom.utils';
+import { removeTerminalCodes } from '../../../../../../utils/terminal.utils';
+import { urlValidator } from '../../../../validators/url.validator';
+import { AppManagerService } from '../../services/app/app.manager';
 
 @Component({
   selector: 'app-home',
@@ -80,7 +80,21 @@ export class HomeComponent {
     this.#appManager.app$.pipe(tap((app) => this.appForm.patchValue(app)))
   );
 
-  deployment = toSignal(this.#appManager.deployment$);
+  deployment = toSignal(
+    this.#appManager.deployment$.pipe(
+      tap(
+        () =>
+          this.followForm.value &&
+          setTimeout(
+            () =>
+              this.logElement?.nativeElement.scroll({
+                top: this.logElement.nativeElement.scrollHeight,
+              }),
+            100
+          )
+      )
+    )
+  );
 
   tokens = toSignal(this.#tokenService.getTokens());
 

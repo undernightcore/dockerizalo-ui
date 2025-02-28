@@ -1,16 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { BadgeModule } from 'primeng/badge';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { AppsService } from '../../../../services/apps/apps.service';
+import { DialogService } from 'primeng/dynamicdialog';
 import { SkeletonModule } from 'primeng/skeleton';
 import { filter, forkJoin, map, switchMap, take, tap, timer } from 'rxjs';
-import { BadgeModule } from 'primeng/badge';
-import { Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { DialogService } from 'primeng/dynamicdialog';
+import {
+  AppFromTemplateRequestInterface,
+  AppInterface,
+} from '../../../../interfaces/app.interface';
+import { AppsService } from '../../../../services/apps/apps.service';
 import { CreateAppComponent } from './components/create-app/create-app.component';
-import { AppInterface } from '../../../../interfaces/app.interface';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-apps',
@@ -39,10 +42,18 @@ export class AppsComponent {
       })
       .onClose.pipe(
         take(1),
-        filter((value): value is Omit<AppInterface, 'id' | 'status'> =>
-          Boolean(value)
+        filter(
+          (
+            value
+          ): value is
+            | AppFromTemplateRequestInterface
+            | Omit<AppInterface, 'id' | 'status'> => Boolean(value)
         ),
-        switchMap((value) => this.#appsService.createApp(value)),
+        switchMap((value) =>
+          value.mode === 'TEMPLATE'
+            ? this.#appsService.createAppFromTemplate(value)
+            : this.#appsService.createApp(value)
+        ),
         tap(() =>
           this.#toastService.add({
             severity: 'success',

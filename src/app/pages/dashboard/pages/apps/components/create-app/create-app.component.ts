@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormGroup,
@@ -10,9 +11,10 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
-import { urlValidator } from '../../../../validators/url.validator';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { SelectModule } from 'primeng/select';
 import { startWith, tap } from 'rxjs';
+import { TemplatesService } from '../../../../../../services/templates/templates.service';
+import { urlValidator } from '../../../../validators/url.validator';
 
 @Component({
   selector: 'app-create-app',
@@ -22,32 +24,33 @@ import { startWith, tap } from 'rxjs';
     MessageModule,
     ButtonModule,
     FloatLabelModule,
+    SelectModule,
   ],
   templateUrl: './create-app.component.html',
   styleUrl: './create-app.component.scss',
 })
 export class CreateAppComponent {
   ref = inject(DynamicDialogRef);
+  #templatesService = inject(TemplatesService);
+
+  templates = toSignal(this.#templatesService.getTemplates());
 
   appForm = new FormGroup({
     name: new FormControl<string | null>(null, [Validators.required]),
-    mode: new FormControl<'REPOSITORY' | 'IMAGE'>('REPOSITORY'),
+    mode: new FormControl<'REPOSITORY' | 'IMAGE' | 'TEMPLATE'>('REPOSITORY'),
     description: new FormControl<string | null>(null),
+    template: new FormControl<string | null>(
+      { value: null, disabled: true },
+      Validators.required
+    ),
     repository: new FormControl<string | null>(null, [
       Validators.required,
       urlValidator,
-    ]),
-    contextPath: new FormControl<string | null>(null, [
-      Validators.pattern(/^(?!$)(\/(?!\.{1,2}(?:\/|$))[^\s\/]+)*\/?$/),
-    ]),
-    filePath: new FormControl<string | null>(null, [
-      Validators.pattern(/^(?!$)(\/(?!\.{1,2}(?:\/|$))[^\s\/]+)*\/?$/),
     ]),
     image: new FormControl<string | null>({ value: null, disabled: true }, [
       Validators.required,
     ]),
     branch: new FormControl<string | null>(null, [Validators.required]),
-    tokenId: new FormControl<string | null>(null),
   });
 
   _enableModeFieldsEffect = toSignal(
@@ -57,15 +60,18 @@ export class CreateAppComponent {
         if (mode === 'REPOSITORY') {
           this.appForm.controls.repository.enable();
           this.appForm.controls.branch.enable();
-          this.appForm.controls.contextPath.enable();
-          this.appForm.controls.filePath.enable();
           this.appForm.controls.image.disable();
+          this.appForm.controls.template.disable();
         } else if (mode === 'IMAGE') {
           this.appForm.controls.image.enable();
           this.appForm.controls.repository.disable();
           this.appForm.controls.branch.disable();
-          this.appForm.controls.contextPath.disable();
-          this.appForm.controls.filePath.disable();
+          this.appForm.controls.template.disable();
+        } else if (mode === 'TEMPLATE') {
+          this.appForm.controls.template.enable();
+          this.appForm.controls.repository.disable();
+          this.appForm.controls.branch.disable();
+          this.appForm.controls.image.disable();
         }
       })
     )

@@ -27,3 +27,10 @@ export interface ImageAppInterface {
   filePath: null;
   tokenId: string | null;
 }
+
+export interface AppFromTemplateRequestInterface {
+  name: string;
+  mode: 'TEMPLATE';
+  description: string | null;
+  template: string;
+}

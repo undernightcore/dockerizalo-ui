@@ -1,5 +1,4 @@
 <div class="create">
-  <p-message severity="warn">You can change these settings later</p-message>
   <div class="create__mode">
     <p-button
       label="Repository"
@@ -16,6 +15,14 @@
       "
       (click)="appForm.controls.mode.setValue('IMAGE')"
       icon="pi pi-box"
+    ></p-button>
+    <p-button
+      label="Template"
+      [severity]="
+        appForm.controls.mode.value === 'TEMPLATE' ? 'primary' : 'secondary'
+      "
+      (click)="appForm.controls.mode.setValue('TEMPLATE')"
+      icon="pi pi-palette"
     ></p-button>
   </div>
   <div class="create__form">
@@ -65,6 +72,32 @@
         autocomplete="off"
       />
       <label for="image">Image</label>
+    </p-floatlabel>
+    } @else if (appForm.controls.mode.value === 'TEMPLATE') {
+    <p-floatlabel variant="on">
+      <p-select
+        [filter]="true"
+        [appendTo]="'body'"
+        [overlayOptions]="{ styleClass: 'create__form__template' }"
+        [options]="templates()"
+        optionLabel="name"
+        optionValue="name"
+        [formControl]="appForm.controls.template"
+        id="template"
+      >
+        <ng-template let-template #item>
+          <div class="create__form__template__item">
+            <div class="create__form__template__item__title">
+              <img [src]="template.icon" style="width: 18px" />
+              <div>{{ template.name }}</div>
+            </div>
+            <div class="create__form__template__item__description">
+              {{ template.description }}
+            </div>
+          </div>
+        </ng-template>
+      </p-select>
+      <label for="Template">Template</label>
     </p-floatlabel>
     }
   </div>

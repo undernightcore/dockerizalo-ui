@@ -1,11 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { AppInterface } from '../../interfaces/app.interface';
 import { SseClient } from 'ngx-sse-client';
 import { map } from 'rxjs';
-import { MessageInterface } from '../../interfaces/message.interface';
+import { environment } from '../../../environments/environment';
+import {
+  AppFromTemplateRequestInterface,
+  AppInterface,
+} from '../../interfaces/app.interface';
 import { BuildInterface } from '../../interfaces/build.interface';
+import { MessageInterface } from '../../interfaces/message.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +50,13 @@ export class AppsService {
 
   createApp(app: Omit<AppInterface, 'id' | 'status'>) {
     return this.#http.post<AppInterface>(`${environment.apiUrl}/apps`, app);
+  }
+
+  createAppFromTemplate(app: AppFromTemplateRequestInterface) {
+    return this.#http.post<AppInterface>(
+      `${environment.apiUrl}/apps/template`,
+      app
+    );
   }
 
   updateApp(appId: string, app: Omit<AppInterface, 'id' | 'status'>) {

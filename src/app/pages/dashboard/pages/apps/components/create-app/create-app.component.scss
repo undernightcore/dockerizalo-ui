@@ -27,9 +27,34 @@
     & > p-floatlabel {
       width: 100%;
 
+      & > p-select {
+        width: 100%;
+      }
+
       &::ng-deep {
         & > input {
           width: 100%;
+        }
+      }
+    }
+
+    &__template {
+      &__item {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        max-width: 378px;
+        overflow: hidden;
+
+        &__title {
+          display: flex;
+          gap: 12px;
+        }
+
+        &__description {
+          color: var(--p-card-subtitle-color);
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
     }
