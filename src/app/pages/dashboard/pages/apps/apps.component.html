@@ -19,7 +19,13 @@
           "
         ></p-badge>
       </ng-template>
-      <ng-template #subtitle>{{ app.branch }}</ng-template>
+      <ng-template #subtitle>
+        @if (app.mode === "REPOSITORY") {
+        <div>{{ app.repository }} - {{ app.branch }}</div>
+        } @else {
+        <div>{{ app.image }}</div>
+        }
+      </ng-template>
       <p class="apps__list__item__description">{{ app.description ?? "-" }}</p>
     </p-card>
     }
