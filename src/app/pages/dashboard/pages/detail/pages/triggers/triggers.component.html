@@ -1,0 +1,38 @@
+<div class="triggers">
+  <h1>Triggers</h1>
+  <div class="triggers__content">
+    @if (triggers()) { @if (triggers()?.length) {
+    <div class="triggers__content__list">
+      @for (trigger of triggers(); track trigger.id) {
+      <div class="triggers__content__list__item">
+        <p-button
+          (click)="handleTrigger(trigger)"
+          [label]="trigger.name"
+          [severity]="'secondary'"
+          icon="pi pi-bullseye"
+        ></p-button>
+        <p-button (click)="handleEdit(trigger)" icon="pi pi-pencil" />
+        <p-button
+          severity="danger"
+          (click)="handleDelete(trigger)"
+          icon="pi pi-trash"
+        />
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="triggers__content__empty">
+      <i class="pi pi-bullseye"></i>
+      <span>No triggers</span>
+    </div>
+    } } @else {
+    <div class="triggers__content__loading">
+      <p-progress-spinner></p-progress-spinner>
+    </div>
+    }
+    <div class="triggers__content__spacer"></div>
+    <div (click)="handleCreate()" class="triggers__content__actions">
+      <p-button severity="secondary" label="Add trigger"></p-button>
+    </div>
+  </div>
+</div>

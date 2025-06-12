@@ -14,3 +14,7 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
   pointer-events: all !important;
 }
+
+.p-toast {
+  max-width: calc(100% - 40px);
+}

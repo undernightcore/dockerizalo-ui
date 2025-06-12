@@ -1,0 +1,76 @@
+.triggers {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  min-width: 585px;
+
+  &__content {
+    height: 100%;
+    background-color: var(--p-content-background);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: 100%;
+      overflow: auto;
+
+      &__item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        & > p-button {
+          &:first-child {
+            width: 100%;
+
+            &::ng-deep {
+              & > button {
+                justify-content: flex-start;
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &__empty {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+
+      & > i {
+        font-size: 20px;
+      }
+    }
+
+    &__loading {
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__spacer {
+      margin: 2px;
+      border: 1px solid white;
+      background-color: white;
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}

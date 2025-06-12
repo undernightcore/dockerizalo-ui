@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppsService } from '../../../../../../services/apps/apps.service';
 import {
   Subject,
   distinctUntilChanged,
@@ -15,18 +14,20 @@ import {
   tap,
 } from 'rxjs';
 import { AppInterface } from '../../../../../../interfaces/app.interface';
-import { BuildsService } from '../../../../../../services/builds/builds.service';
 import { BuildInterface } from '../../../../../../interfaces/build.interface';
-import { VolumesService } from '../../../../../../services/volumes/volumes.service';
-import { VolumeInterface } from '../../../../../../interfaces/volume.interface';
-import { PortsService } from '../../../../../../services/ports/ports.service';
-import { PortInterface } from '../../../../../../interfaces/ports.interface';
-import { VariablesService } from '../../../../../../services/variables/variables.service';
-import { VariableInterface } from '../../../../../../interfaces/variable.interface';
-import { NetworksService } from '../../../../../../services/networks/networks.service';
-import { NetworkInterface } from '../../../../../../interfaces/network.interface';
-import { LabelsService } from '../../../../../../services/labels/labels.service';
 import { LabelInterface } from '../../../../../../interfaces/label.interface';
+import { NetworkInterface } from '../../../../../../interfaces/network.interface';
+import { PortInterface } from '../../../../../../interfaces/ports.interface';
+import { VariableInterface } from '../../../../../../interfaces/variable.interface';
+import { VolumeInterface } from '../../../../../../interfaces/volume.interface';
+import { AppsService } from '../../../../../../services/apps/apps.service';
+import { BuildsService } from '../../../../../../services/builds/builds.service';
+import { LabelsService } from '../../../../../../services/labels/labels.service';
+import { NetworksService } from '../../../../../../services/networks/networks.service';
+import { PortsService } from '../../../../../../services/ports/ports.service';
+import { TriggersService } from '../../../../../../services/triggers/triggers.service';
+import { VariablesService } from '../../../../../../services/variables/variables.service';
+import { VolumesService } from '../../../../../../services/volumes/volumes.service';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +41,7 @@ export class AppManagerService {
   #variablesService = inject(VariablesService);
   #networksService = inject(NetworksService);
   #labelsService = inject(LabelsService);
+  #triggersService = inject(TriggersService);
 
   #appId = this.#router.events.pipe(
     startWith(true),
@@ -157,6 +159,17 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  #resetTriggers = new Subject<void>();
+  triggers$ = this.#appId.pipe(
+    switchMap((appId) =>
+      this.#resetTriggers.pipe(
+        startWith(true),
+        switchMap(() => this.#triggersService.getTriggers(appId))
+      )
+    ),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   startApp() {
     return this.app$.pipe(
       take(1),
@@ -241,6 +254,34 @@ export class AppManagerService {
       take(1),
       switchMap((app) => this.#labelsService.saveLabels(app.id, labels)),
       tap(() => this.#resetLabels.next())
+    );
+  }
+
+  createTrigger(trigger: { name: string }) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) => this.#triggersService.createTrigger(app.id, trigger)),
+      tap(() => this.#resetTriggers.next())
+    );
+  }
+
+  editTrigger(triggerId: string, trigger: { name: string }) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) =>
+        this.#triggersService.editTrigger(app.id, triggerId, trigger)
+      ),
+      tap(() => this.#resetTriggers.next())
+    );
+  }
+
+  deleteTrigger(triggerId: string) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) =>
+        this.#triggersService.deleteTrigger(app.id, triggerId)
+      ),
+      tap(() => this.#resetTriggers.next())
     );
   }
 }

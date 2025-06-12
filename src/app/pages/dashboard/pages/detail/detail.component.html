@@ -109,6 +109,14 @@
         [severity]="route() === 'labels' ? 'primary' : 'secondary'"
         icon="pi pi-tag"
       ></p-button>
+      @if (app()?.mode === 'REPOSITORY') {
+      <p-button
+        [routerLink]="['/apps', app()?.id, 'triggers']"
+        label="Triggers"
+        [severity]="route() === 'triggers' ? 'primary' : 'secondary'"
+        icon="pi pi-bullseye"
+      ></p-button>
+      }
     </div>
     <div>
       <div class="detail__menu__spacer"></div>

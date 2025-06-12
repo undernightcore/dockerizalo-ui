@@ -1,0 +1,30 @@
+<div class="create">
+  @if (!trigger) {
+  <p-message severity="warn"> The URL will appear after creation </p-message>
+  }
+  <p-message severity="info">
+    To run a trigger from an external service it must send a POST request to
+    it's endpoint.
+  </p-message>
+  <div class="create__form">
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="createForm.controls.name"
+        pInputText
+        id="name"
+        autocomplete="off"
+      />
+      <label for="name">Name</label>
+    </p-floatlabel>
+  </div>
+  <div class="create__actions">
+    <p-button severity="secondary" (click)="ref.close(undefined)"
+      >Cancel</p-button
+    >
+    <p-button
+      [disabled]="!createForm.valid"
+      (click)="ref.close({ name: createForm.value.name })"
+      >Save</p-button
+    >
+  </div>
+</div>

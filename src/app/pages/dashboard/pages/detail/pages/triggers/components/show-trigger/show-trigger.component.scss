@@ -1,0 +1,17 @@
+.trigger {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 412px;
+  max-width: 500px;
+
+  &__form {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+
+    & > input {
+      width: 100%;
+    }
+  }
+}

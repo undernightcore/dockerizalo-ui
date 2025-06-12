@@ -6,7 +6,8 @@
   &__header {
     display: flex;
     align-items: center;
-    gap: 16px;
+    column-gap: 16px;
+    flex-wrap: wrap;
   }
 
   &__list {

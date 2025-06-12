@@ -1,0 +1,28 @@
+.create {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 412px;
+  max-width: 500px;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    & > p-floatlabel {
+      width: 100%;
+
+      &::ng-deep {
+        & > input {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 16px;
+  }
+}

@@ -1,0 +1,16 @@
+<div class="trigger">
+  <p-message severity="warn">Do not share this URL publicly</p-message>
+
+  <div class="trigger__form">
+    <input
+      [disabled]="true"
+      [value]="endpoint"
+      pInputText
+      id="name"
+      autocomplete="off"
+    />
+
+    <p-button (click)="handleClipboard()" icon="pi pi-clipboard"></p-button>
+  </div>
+  <p-message severity="info">Closing in... {{ time() }}</p-message>
+</div>
