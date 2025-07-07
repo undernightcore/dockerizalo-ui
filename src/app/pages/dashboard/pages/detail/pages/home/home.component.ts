@@ -9,6 +9,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -42,6 +43,7 @@ import { AppManagerService } from '../../services/app/app.manager';
     SelectModule,
     TooltipModule,
     FloatLabelModule,
+    FormsModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -75,6 +77,13 @@ export class HomeComponent {
   });
 
   followForm = new FormControl(true);
+  limitOptions = [
+    { label: '300', value: 300 },
+    { label: '500', value: 500 },
+    { label: '1000', value: 1000 },
+    { label: '5000', value: 5000 },
+    { label: '10000!?', value: 10000 },
+  ];
 
   app = toSignal(
     this.#appManager.app$.pipe(tap((app) => this.appForm.patchValue(app)))
@@ -97,6 +106,8 @@ export class HomeComponent {
   );
 
   tokens = toSignal(this.#tokenService.getTokens());
+
+  logsLimit = toSignal(this.#appManager.logsLimit$, { requireSync: true });
 
   logs = toSignal(
     this.#appManager.logs$.pipe(
@@ -201,5 +212,9 @@ export class HomeComponent {
         })
       )
       .subscribe();
+  }
+
+  limitLogs(limit: number) {
+    this.#appManager.limitLogs(limit);
   }
 }

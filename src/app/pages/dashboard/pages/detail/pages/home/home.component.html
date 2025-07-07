@@ -184,14 +184,29 @@
     <p-skeleton height="190.5px"></p-skeleton>
     } @if (logs()) {
     <p-panel header="Logs">
-      <div class="home__content__follow">
-        <p-checkbox
-          [formControl]="followForm"
-          [binary]="true"
-          inputId="follow"
-        />
-        <label for="follow">Follow logs</label>
+      <div class="home__content__header">
+        <div class="home__content__header__follow">
+          <p-checkbox
+            [formControl]="followForm"
+            [binary]="true"
+            inputId="follow"
+          />
+          <label for="follow">Follow logs</label>
+        </div>
+        <div class="home__content__header__limit">
+          <label for="limit">Limit to</label>
+          <p-select
+            [ngModel]="logsLimit()"
+            (ngModelChange)="limitLogs($event)"
+            [options]="limitOptions"
+            optionLabel="label"
+            optionValue="value"
+            inputId="limit"
+            size="small"
+          ></p-select>
+        </div>
       </div>
+
       <div #logElement class="home__content__logs">
         <pre>{{ deployment() ?? logs() }}</pre>
       </div>

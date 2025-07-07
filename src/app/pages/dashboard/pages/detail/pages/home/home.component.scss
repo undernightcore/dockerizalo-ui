@@ -67,11 +67,16 @@
       }
     }
 
-    &__follow {
+    &__header {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      justify-content: space-between;
       padding-bottom: 12px;
+
+      & > div {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
     }
 
     &__logs {

@@ -1,8 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { DialogService } from 'primeng/dynamicdialog';
+import { SkeletonModule } from 'primeng/skeleton';
 import {
   distinctUntilChanged,
   filter,
@@ -12,12 +16,8 @@ import {
   take,
   tap,
 } from 'rxjs';
-import { AppManagerService } from './services/app/app.manager';
-import { SkeletonModule } from 'primeng/skeleton';
-import { BadgeModule } from 'primeng/badge';
-import { MessageService } from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
 import { DeleteAppComponent } from './components/delete-app/delete-app.component';
+import { AppManagerService } from './services/app/app.manager';
 
 @Component({
   selector: 'app-detail',
@@ -31,6 +31,7 @@ import { DeleteAppComponent } from './components/delete-app/delete-app.component
   ],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.scss',
+  providers: [AppManagerService],
 })
 export class DetailComponent {
   #router = inject(Router);

@@ -30,12 +30,16 @@ export class AppsService {
       .pipe(map((json) => JSON.parse(json) as AppInterface));
   }
 
-  getAppLogs(appId: string) {
+  getAppLogs(appId: string, tail?: number) {
     return this.#sse
-      .stream(`${environment.apiUrl}/apps/${appId}/logs/realtime`, {
-        keepAlive: true,
-        responseType: 'text',
-      })
+      .stream(
+        `${environment.apiUrl}/apps/${appId}/logs/realtime`,
+        {
+          keepAlive: true,
+          responseType: 'text',
+        },
+        { params: tail ? { tail: String(tail) } : undefined }
+      )
       .pipe(map((json) => JSON.parse(json) as string));
   }
 

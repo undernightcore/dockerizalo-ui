@@ -1,7 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {
+  BehaviorSubject,
   Subject,
+  combineLatest,
   distinctUntilChanged,
   filter,
   map,
@@ -29,9 +31,7 @@ import { TriggersService } from '../../../../../../services/triggers/triggers.se
 import { VariablesService } from '../../../../../../services/variables/variables.service';
 import { VolumesService } from '../../../../../../services/volumes/volumes.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AppManagerService {
   #router = inject(Router);
   #appsService = inject(AppsService);
@@ -56,12 +56,20 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
-  logs$ = this.app$.pipe(
-    switchMap((app) =>
+  #logsLimit = new BehaviorSubject<number>(300);
+  logsLimit$ = this.#logsLimit.asObservable();
+  logs$ = combineLatest([this.app$, this.#logsLimit]).pipe(
+    switchMap(([app, limit]) =>
       app.status === 'running' || app.status === 'restarting'
-        ? this.#appsService
-            .getAppLogs(app.id)
-            .pipe(scan((acc, message) => acc + message, ''))
+        ? this.#appsService.getAppLogs(app.id, limit).pipe(
+            scan(
+              (acc, message) => [...acc, message].slice(-limit),
+              [] as string[]
+            ),
+            map((logs) =>
+              logs.join('').trim().split('\n').slice(-limit).join('\n')
+            )
+          )
         : of('No logs.')
     ),
     shareReplay({ refCount: true, bufferSize: 1 })
@@ -182,6 +190,10 @@ export class AppManagerService {
       take(1),
       switchMap(({ id }) => this.#appsService.updateApp(id, app))
     );
+  }
+
+  limitLogs(limit: number) {
+    this.#logsLimit.next(limit);
   }
 
   stopApp() {
