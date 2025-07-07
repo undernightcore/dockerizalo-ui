@@ -11,7 +11,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
-import { TokenInterface } from '../../../../../../../../interfaces/token.interface';
+import { TokenInterface } from '../../../../../../interfaces/token.interface';
 
 @Component({
   selector: 'app-create-token',

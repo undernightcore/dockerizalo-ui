@@ -11,6 +11,11 @@
         [severity]="route() === '/' ? 'primary' : 'secondary'"
         icon="pi pi-home"
       />
+      <p-button
+        routerLink="/tokens"
+        [severity]="route() === '/tokens' ? 'primary' : 'secondary'"
+        icon="pi pi-key"
+      />
     </div>
     <div class="dashboard__actions__group">
       <p-button

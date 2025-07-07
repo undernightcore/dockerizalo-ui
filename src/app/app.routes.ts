@@ -19,8 +19,8 @@ import { unsavedVariablesGuard } from './pages/dashboard/pages/detail/pages/vari
 import { VariablesComponent } from './pages/dashboard/pages/detail/pages/variables/variables.component';
 import { unsavedVolumesGuard } from './pages/dashboard/pages/detail/pages/volumes/guards/unsaved.guard';
 import { VolumesComponent } from './pages/dashboard/pages/detail/pages/volumes/volumes.component';
-import { TokensComponent } from './pages/dashboard/pages/settings/pages/tokens/tokens.component';
 import { SettingsComponent } from './pages/dashboard/pages/settings/settings.component';
+import { TokensComponent } from './pages/dashboard/pages/tokens/tokens.component';
 
 export const routes: Routes = [
   {
@@ -34,12 +34,10 @@ export const routes: Routes = [
       {
         path: 'settings',
         component: SettingsComponent,
-        children: [
-          {
-            path: '',
-            component: TokensComponent,
-          },
-        ],
+      },
+      {
+        path: 'tokens',
+        component: TokensComponent,
       },
       {
         path: 'apps/:appId',

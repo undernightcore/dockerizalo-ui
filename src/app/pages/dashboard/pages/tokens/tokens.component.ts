@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { TokensService } from '../../../../../../services/tokens/tokens.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { DialogService } from 'primeng/dynamicdialog';
-import { CreateTokenComponent } from './components/create-token/create-token.component';
-import { Subject, filter, startWith, switchMap, tap } from 'rxjs';
-import { TokenInterface } from '../../../../../../interfaces/token.interface';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { DialogService } from 'primeng/dynamicdialog';
+import { Subject, filter, startWith, switchMap, tap } from 'rxjs';
+import { TokenInterface } from '../../../../interfaces/token.interface';
+import { TokensService } from '../../../../services/tokens/tokens.service';
+import { CreateTokenComponent } from './components/create-token/create-token.component';
 import { DeleteTokenComponent } from './components/delete-token/delete-token.component';
 
 @Component({

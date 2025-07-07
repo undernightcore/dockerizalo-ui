@@ -8,10 +8,10 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FloatLabel } from 'primeng/floatlabel';
-import { MessageModule } from 'primeng/message';
-import { TokenInterface } from '../../../../../../../../interfaces/token.interface';
-import { deleteTokenNameValidator } from '../../validators/delete-token.validator';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
+import { TokenInterface } from '../../../../../../interfaces/token.interface';
+import { deleteTokenNameValidator } from '../../validators/delete-token.validator';
 
 @Component({
   selector: 'app-delete-token',

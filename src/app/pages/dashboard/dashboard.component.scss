@@ -28,7 +28,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
+      gap: 1rem;
 
       @media (max-width: 550px) {
         flex-direction: row;
@@ -43,7 +43,7 @@
 
       &__logo {
         width: 40px;
-        margin-bottom: 22px;
+        margin-bottom: 16px;
 
         @media (max-width: 550px) {
           margin-bottom: 0;
@@ -60,7 +60,7 @@
 
       &__spacer {
         width: 100%;
-        margin: 10px 0;
+        margin: 8px 0;
         border: 1px solid white;
       }
 
