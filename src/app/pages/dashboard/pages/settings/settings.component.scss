@@ -10,5 +10,39 @@
 
   &__content {
     height: 100%;
+    background-color: var(--p-content-background);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      &__form {
+        & > div {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          max-width: 300px;
+
+          & > p-floatlabel {
+            width: 100%;
+
+            & > p-input-number {
+              width: 100%;
+            }
+          }
+
+          & > small {
+            color: var(--p-surface-400);
+          }
+        }
+      }
+    }
   }
 }

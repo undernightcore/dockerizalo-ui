@@ -1,4 +1,24 @@
 <div class="settings">
   <h1>Settings</h1>
-  <div class="settings__content"></div>
+  <div class="settings__content">
+    <p-panel header="Retention">
+      <div class="settings__content__panel">
+        <div class="settings__content__panel__form">
+          <div>
+            <p-floatlabel variant="on">
+              <p-input-number
+                (onBlur)="saveSetting('MAX_IMAGES')"
+                [formControl]="settingsForm.controls.MAX_IMAGES"
+                id="images"
+              ></p-input-number>
+              <label for="images">Images per app</label>
+            </p-floatlabel>
+            <small id="images-help"
+              >How many deployment will be saved, should at least be 1</small
+            >
+          </div>
+        </div>
+      </div>
+    </p-panel>
+  </div>
 </div>
