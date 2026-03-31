@@ -21,6 +21,7 @@ import { unsavedVolumesGuard } from './pages/dashboard/pages/detail/pages/volume
 import { VolumesComponent } from './pages/dashboard/pages/detail/pages/volumes/volumes.component';
 import { SettingsComponent } from './pages/dashboard/pages/settings/settings.component';
 import { TokensComponent } from './pages/dashboard/pages/tokens/tokens.component';
+import { UsersComponent } from './pages/dashboard/pages/users/users.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +39,10 @@ export const routes: Routes = [
       {
         path: 'tokens',
         component: TokensComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
       },
       {
         path: 'apps/:appId',

@@ -1,0 +1,40 @@
+<div class="users">
+  <h1>Users</h1>
+  <p-button (click)="createUser()" label="Create user"></p-button>
+  <p-table
+    [value]="users() ?? []"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [size]="'large'"
+  >
+    <ng-template #header>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-user>
+      <tr>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td class="users__actions">
+          <p-button
+            (click)="editUser(user)"
+            severity="secondary"
+            icon="pi pi-pencil"
+          />
+          <p-button
+            (click)="editPassword(user)"
+            severity="secondary"
+            icon="pi pi-key"
+          />
+          <p-button
+            (click)="deleteUser(user)"
+            severity="danger"
+            icon="pi pi-trash"
+          />
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

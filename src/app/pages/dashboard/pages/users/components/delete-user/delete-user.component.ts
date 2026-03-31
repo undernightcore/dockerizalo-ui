@@ -10,11 +10,11 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
-import { TokenInterface } from '../../../../../../interfaces/token.interface';
-import { deleteTokenNameValidator } from '../../validators/delete-token.validator';
+import { UserInterface } from '../../../../../../interfaces/auth.interface';
+import { deleteUserEmailValidator } from '../../validators/delete-user.validator';
 
 @Component({
-  selector: 'app-delete-token',
+  selector: 'app-delete-user',
   imports: [
     MessageModule,
     FloatLabel,
@@ -22,17 +22,17 @@ import { deleteTokenNameValidator } from '../../validators/delete-token.validato
     ButtonModule,
     InputTextModule,
   ],
-  templateUrl: './delete-token.component.html',
-  styleUrl: './delete-token.component.scss',
+  templateUrl: './delete-user.component.html',
+  styleUrl: './delete-user.component.scss',
 })
-export class DeleteTokenComponent {
+export class DeleteUserComponent {
   ref = inject(DynamicDialogRef);
-  token: TokenInterface = inject(DialogService).getInstance(this.ref).data;
+  user: UserInterface = inject(DialogService).getInstance(this.ref).data;
 
   deleteForm = new FormGroup({
-    name: new FormControl<string | null>('', [
+    email: new FormControl<string | null>('', [
       Validators.required,
-      deleteTokenNameValidator(this.token.name),
+      deleteUserEmailValidator(this.user.email),
     ]),
   });
 }

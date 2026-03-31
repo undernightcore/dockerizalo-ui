@@ -1,0 +1,44 @@
+<div class="user">
+  @if (!data) {
+  <p-message severity="warn"
+    >This user will have the same permissions as YOU!</p-message
+  >
+  }
+  <div [style.padding-top.px]="data ? 6 : 0" class="user__form">
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="userForm.controls.name"
+        pInputText
+        id="name"
+        autocomplete="off"
+      />
+      <label for="name">Name</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <input
+        [formControl]="userForm.controls.email"
+        pInputText
+        id="username"
+        autocomplete="off"
+      />
+      <label for="username">Email</label>
+    </p-floatlabel>
+    @if (!data) {
+    <p-floatlabel variant="on">
+      <p-password
+        [toggleMask]="true"
+        [formControl]="userForm.controls.password"
+        [feedback]="false"
+        id="password"
+      ></p-password>
+      <label for="password">Password</label>
+    </p-floatlabel>
+    }
+  </div>
+  <div class="user__actions">
+    <p-button [disabled]="!userForm.valid" (click)="ref.close(userForm.value)"
+      >Save</p-button
+    >
+    <p-button severity="secondary" (click)="ref.close(false)">Cancel</p-button>
+  </div>
+</div>
