@@ -18,6 +18,10 @@ import {
 import { AppInterface } from '../../../../../../interfaces/app.interface';
 import { BuildInterface } from '../../../../../../interfaces/build.interface';
 import { LabelInterface } from '../../../../../../interfaces/label.interface';
+import {
+  AppRole,
+  CreateMemberInterface,
+} from '../../../../../../interfaces/member.interface';
 import { NetworkInterface } from '../../../../../../interfaces/network.interface';
 import { PortInterface } from '../../../../../../interfaces/ports.interface';
 import { VariableInterface } from '../../../../../../interfaces/variable.interface';
@@ -25,6 +29,7 @@ import { VolumeInterface } from '../../../../../../interfaces/volume.interface';
 import { AppsService } from '../../../../../../services/apps/apps.service';
 import { BuildsService } from '../../../../../../services/builds/builds.service';
 import { LabelsService } from '../../../../../../services/labels/labels.service';
+import { MembersService } from '../../../../../../services/members/members.service';
 import { NetworksService } from '../../../../../../services/networks/networks.service';
 import { PortsService } from '../../../../../../services/ports/ports.service';
 import { TriggersService } from '../../../../../../services/triggers/triggers.service';
@@ -41,6 +46,7 @@ export class AppManagerService {
   #variablesService = inject(VariablesService);
   #networksService = inject(NetworksService);
   #labelsService = inject(LabelsService);
+  #membersService = inject(MembersService);
   #triggersService = inject(TriggersService);
 
   #appId = this.#router.events.pipe(
@@ -167,6 +173,17 @@ export class AppManagerService {
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  #resetMembers = new Subject<void>();
+  members$ = this.#appId.pipe(
+    switchMap((appId) =>
+      this.#resetMembers.pipe(
+        startWith(true),
+        switchMap(() => this.#membersService.getMembers(appId))
+      )
+    ),
+    shareReplay({ refCount: true, bufferSize: 1 })
+  );
+
   #resetTriggers = new Subject<void>();
   triggers$ = this.#appId.pipe(
     switchMap((appId) =>
@@ -266,6 +283,32 @@ export class AppManagerService {
       take(1),
       switchMap((app) => this.#labelsService.saveLabels(app.id, labels)),
       tap(() => this.#resetLabels.next())
+    );
+  }
+
+  createMember(member: CreateMemberInterface) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) => this.#membersService.createMember(app.id, member)),
+      tap(() => this.#resetMembers.next())
+    );
+  }
+
+  updateMember(memberId: number, role: AppRole) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) =>
+        this.#membersService.updateMember(app.id, memberId, role)
+      ),
+      tap(() => this.#resetMembers.next())
+    );
+  }
+
+  deleteMember(memberId: number) {
+    return this.app$.pipe(
+      take(1),
+      switchMap((app) => this.#membersService.deleteMember(app.id, memberId)),
+      tap(() => this.#resetMembers.next())
     );
   }
 

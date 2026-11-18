@@ -1,0 +1,78 @@
+.members {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: fit-content;
+  min-width: 650px;
+
+  &__content {
+    height: 100%;
+    background-color: var(--p-content-background);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__list {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      border-radius: 1rem;
+
+      &::ng-deep {
+        .p-datatable-table-container {
+          overflow: visible;
+        }
+
+        thead {
+          position: sticky;
+          top: 0;
+          z-index: 1;
+        }
+      }
+    }
+
+    &__empty {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+
+      & > i {
+        font-size: 20px;
+      }
+    }
+
+    &__loading {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__spacer {
+      margin: 2px;
+      border: 1px solid white;
+      background-color: white;
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+
+      & > span {
+        color: var(--p-form-field-disabled-color);
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+  }
+}

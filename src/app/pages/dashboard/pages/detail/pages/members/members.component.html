@@ -1,0 +1,74 @@
+<div class="members">
+  <h1>Members</h1>
+  <div class="members__content">
+    @if (members()) {
+      @if (members()?.length) {
+        <div class="members__content__list">
+          <p-table
+            [value]="members() ?? []"
+            [tableStyle]="{ 'min-width': '36rem' }"
+            size="large"
+          >
+            <ng-template #header>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                @if (isAdmin()) {
+                  <th>Actions</th>
+                }
+              </tr>
+            </ng-template>
+            <ng-template #body let-member>
+              <tr>
+                <td>{{ member.user.name }}</td>
+                <td>{{ member.user.email }}</td>
+                <td>
+                  <p-tag
+                    [value]="member.role === 'EDITOR' ? 'Editor' : 'Viewer'"
+                    [severity]="member.role === 'EDITOR' ? 'success' : 'info'"
+                  />
+                </td>
+                @if (isAdmin()) {
+                  <td class="members__actions">
+                    <p-button
+                      (click)="editMember(member)"
+                      severity="secondary"
+                      icon="pi pi-pencil"
+                    />
+                    <p-button
+                      (click)="deleteMember(member)"
+                      severity="danger"
+                      icon="pi pi-trash"
+                    />
+                  </td>
+                }
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      } @else {
+        <div class="members__content__empty">
+          <i class="pi pi-users"></i>
+          <span>No members</span>
+        </div>
+      }
+    } @else {
+      <div class="members__content__loading">
+        <p-progress-spinner></p-progress-spinner>
+      </div>
+    }
+    <div class="members__content__spacer"></div>
+    <div class="members__content__actions">
+      @if (isAdmin()) {
+        <p-button
+          (click)="createMember()"
+          severity="secondary"
+          label="Add member"
+        ></p-button>
+      } @else {
+        <span>Only administrators can manage members</span>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+.member {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 412px;
+  max-width: 500px;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    & > small {
+      color: var(--p-form-field-placeholder-color);
+    }
+
+    & > p-floatlabel {
+      width: 100%;
+
+      &::ng-deep {
+        & > p-select {
+          width: 100%;
+        }
+
+        .p-select {
+          width: 100%;
+        }
+      }
+    }
+
+    &__option {
+      display: flex;
+      flex-direction: column;
+
+      &__email {
+        font-size: 12px;
+        color: var(--p-form-field-placeholder-color);
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 16px;
+  }
+}

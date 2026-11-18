@@ -10,6 +10,7 @@ import { unsavedHomeGuard } from './pages/dashboard/pages/detail/pages/home/guar
 import { HomeComponent } from './pages/dashboard/pages/detail/pages/home/home.component';
 import { unsavedLabelsGuard } from './pages/dashboard/pages/detail/pages/labels/guards/unsaved.guard';
 import { LabelsComponent } from './pages/dashboard/pages/detail/pages/labels/labels.component';
+import { MembersComponent } from './pages/dashboard/pages/detail/pages/members/members.component';
 import { unsavedNetworksGuard } from './pages/dashboard/pages/detail/pages/networks/guards/unsaved.guard';
 import { NetworksComponent } from './pages/dashboard/pages/detail/pages/networks/networks.component';
 import { unsavedPortsGuard } from './pages/dashboard/pages/detail/pages/ports/guards/unsaved.guard';
@@ -89,6 +90,10 @@ export const routes: Routes = [
           {
             path: 'triggers',
             component: TriggersComponent,
+          },
+          {
+            path: 'members',
+            component: MembersComponent,
           },
         ],
       },

@@ -11,8 +11,11 @@ export interface TokenInterface {
   token: string;
 }
 
+export type UserRole = 'USER' | 'ADMIN';
+
 export interface UserInterface {
   id: number;
   name: string;
   email: string;
+  role: UserRole;
 }
