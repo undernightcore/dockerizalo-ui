@@ -1,43 +1,45 @@
 <div class="member">
   @if (member) {
-  <p-message severity="info">
-    {{ member.user.name }} ({{ member.user.email }})
-  </p-message>
+    <p-message severity="info">
+      {{ member.user.name }} ({{ member.user.email }})
+    </p-message>
   } @else if (users.length) {
-  <p-message severity="info">
-    The user must already have an account in this instance
-  </p-message>
+    <p-message severity="info">
+      The user must already have an account in this instance
+    </p-message>
   } @else {
-  <p-message severity="warn">
-    Every user is already a member of this app
-  </p-message>
+    <p-message severity="warn">
+      Every user is already a member of this app
+    </p-message>
   }
   <div class="member__form">
     @if (!member) {
-    <p-floatlabel variant="on">
-      <p-select
-        [formControl]="memberForm.controls.userId"
-        [options]="users"
-        optionLabel="name"
-        optionValue="id"
-        [filter]="true"
-        filterBy="name,email"
-        inputId="user"
-      >
-        <ng-template #item let-user>
-          <div class="member__form__option">
-            <span>{{ user.name }}</span>
-            <span class="member__form__option__email">{{ user.email }}</span>
-          </div>
-        </ng-template>
-      </p-select>
-      <label for="user">User</label>
-    </p-floatlabel>
+      <p-floatlabel variant="on">
+        <p-select
+          [formControl]="memberForm.controls.userId"
+          [options]="users"
+          optionLabel="name"
+          optionValue="id"
+          appendTo="body"
+          [filter]="true"
+          filterBy="name,email"
+          inputId="user"
+        >
+          <ng-template #item let-user>
+            <div class="member__form__option">
+              <span>{{ user.name }}</span>
+              <span class="member__form__option__email">{{ user.email }}</span>
+            </div>
+          </ng-template>
+        </p-select>
+        <label for="user">User</label>
+      </p-floatlabel>
     }
     <p-floatlabel variant="on">
       <p-select
         [formControl]="memberForm.controls.role"
         [options]="roles"
+        appendTo="body"
         optionLabel="label"
         optionValue="value"
         inputId="role"
