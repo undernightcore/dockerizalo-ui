@@ -18,25 +18,29 @@
     border-radius: 1rem;
 
     &::ng-deep {
-      div {
-        height: 100%;
-        overflow: auto;
+      .p-datatable-table-container {
+        overflow: visible;
       }
 
-      table {
-        height: 100%;
-        overflow: auto;
-
-        & > thead {
-          position: sticky;
-          top: 0;
-        }
+      table > thead {
+        position: sticky;
+        top: 0;
+        z-index: 1;
       }
     }
   }
 
   &__actions {
     display: flex;
+    align-items: center;
     gap: 8px;
+  }
+
+  &__role {
+    width: 9rem;
+
+    &::ng-deep .p-select {
+      width: 100%;
+    }
   }
 }

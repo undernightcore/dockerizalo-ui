@@ -19,3 +19,10 @@ export interface UserInterface {
   email: string;
   role: UserRole;
 }
+
+export interface EditUserRequestInterface {
+  name?: string;
+  email?: string;
+  password?: string;
+  role?: UserRole;
+}

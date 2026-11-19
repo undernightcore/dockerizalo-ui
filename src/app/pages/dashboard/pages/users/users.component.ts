@@ -1,13 +1,24 @@
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
+import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-import { filter, startWith, Subject, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  EMPTY,
+  filter,
+  startWith,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
 import {
   RegisterRequestInterface,
   UserInterface,
+  UserRole,
 } from '../../../../interfaces/auth.interface';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { CreateUserComponent } from './components/create-user/create-user.component';
@@ -16,7 +27,7 @@ import { EditPasswordComponent } from './components/edit-password/edit-password.
 
 @Component({
   selector: 'app-users',
-  imports: [ButtonModule, TableModule],
+  imports: [ButtonModule, TableModule, SelectModule, FormsModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })
@@ -25,6 +36,11 @@ export class UsersComponent {
   #dialogService = inject(DialogService);
   #toastService = inject(MessageService);
 
+  roles: { label: string; value: UserRole }[] = [
+    { label: 'User', value: 'USER' },
+    { label: 'Admin', value: 'ADMIN' },
+  ];
+
   #reload = new Subject<void>();
   users = toSignal(
     this.#reload.pipe(
@@ -32,6 +48,8 @@ export class UsersComponent {
       switchMap(() => this.#authService.getUsers())
     )
   );
+
+  currentUser = toSignal(this.#authService.user$);
 
   createUser() {
     this.#dialogService
@@ -67,6 +85,28 @@ export class UsersComponent {
             detail: 'The user has been updated',
           });
           this.#reload.next();
+        })
+      )
+      .subscribe();
+  }
+
+  editRole(user: UserInterface, role: UserRole) {
+    if (role === user.role) return;
+
+    this.#authService
+      .editUser(user.id, { role })
+      .pipe(
+        tap(() => {
+          this.#toastService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'The role has been updated',
+          });
+          this.#reload.next();
+        }),
+        catchError(() => {
+          this.#reload.next();
+          return EMPTY;
         })
       )
       .subscribe();

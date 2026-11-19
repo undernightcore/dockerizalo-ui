@@ -10,6 +10,7 @@
       <tr>
         <th>Name</th>
         <th>Email</th>
+        <th>Role</th>
         <th>Actions</th>
       </tr>
     </ng-template>
@@ -17,22 +18,35 @@
       <tr>
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
-        <td class="users__actions">
-          <p-button
-            (click)="editUser(user)"
-            severity="secondary"
-            icon="pi pi-pencil"
-          />
-          <p-button
-            (click)="editPassword(user)"
-            severity="secondary"
-            icon="pi pi-key"
-          />
-          <p-button
-            (click)="deleteUser(user)"
-            severity="danger"
-            icon="pi pi-trash"
-          />
+        <td class="users__role">
+          <p-select
+            [options]="roles"
+            [ngModel]="user.role"
+            (onChange)="editRole(user, $event.value)"
+            [disabled]="user.id === currentUser()?.id"
+            optionLabel="label"
+            optionValue="value"
+            appendTo="body"
+          ></p-select>
+        </td>
+        <td>
+          <div class="users__actions">
+            <p-button
+              (click)="editUser(user)"
+              severity="secondary"
+              icon="pi pi-pencil"
+            />
+            <p-button
+              (click)="editPassword(user)"
+              severity="secondary"
+              icon="pi pi-key"
+            />
+            <p-button
+              (click)="deleteUser(user)"
+              severity="danger"
+              icon="pi pi-trash"
+            />
+          </div>
         </td>
       </tr>
     </ng-template>

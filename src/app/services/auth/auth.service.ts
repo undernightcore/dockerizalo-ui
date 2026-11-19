@@ -10,6 +10,7 @@ import {
 } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
+  EditUserRequestInterface,
   LoginRequestInterface,
   RegisterRequestInterface,
   TokenInterface,
@@ -70,7 +71,7 @@ export class AuthService {
     );
   }
 
-  editUser(id: number, user: Partial<RegisterRequestInterface>) {
+  editUser(id: number, user: EditUserRequestInterface) {
     return this.#http
       .put<UserInterface>(`${environment.apiUrl}/auth/users/${id}`, user)
       .pipe(tap(() => this.#reloadUser.next()));
