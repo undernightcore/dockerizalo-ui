@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, nonAuthGuard } from './guards/auth.guard';
+import { adminGuard, authGuard, nonAuthGuard } from './guards/auth.guard';
 import { AuthComponent } from './pages/auth/auth.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AppsComponent } from './pages/dashboard/pages/apps/apps.component';
@@ -40,10 +40,12 @@ export const routes: Routes = [
       {
         path: 'tokens',
         component: TokensComponent,
+        canActivate: [adminGuard],
       },
       {
         path: 'users',
         component: UsersComponent,
+        canActivate: [adminGuard],
       },
       {
         path: 'apps/:appId',

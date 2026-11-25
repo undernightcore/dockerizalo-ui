@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -13,6 +13,7 @@ import {
   AppInterface,
 } from '../../../../interfaces/app.interface';
 import { AppsService } from '../../../../services/apps/apps.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 import { CreateAppComponent } from './components/create-app/create-app.component';
 
 @Component({
@@ -23,14 +24,18 @@ import { CreateAppComponent } from './components/create-app/create-app.component
 })
 export class AppsComponent {
   #appsService = inject(AppsService);
+  #authService = inject(AuthService);
   #dialogService = inject(DialogService);
   #toastService = inject(MessageService);
   #router = inject(Router);
 
+  user = toSignal(this.#authService.user$);
+  admin = computed(() => this.user()?.role === 'ADMIN');
+
   apps = toSignal(
     forkJoin([this.#appsService.getApps(), timer(500)]).pipe(
-      map(([apps]) => apps)
-    )
+      map(([apps]) => apps),
+    ),
   );
 
   createApp() {
@@ -44,24 +49,24 @@ export class AppsComponent {
         take(1),
         filter(
           (
-            value
+            value,
           ): value is
             | AppFromTemplateRequestInterface
-            | Omit<AppInterface, 'id' | 'status'> => Boolean(value)
+            | Omit<AppInterface, 'id' | 'status'> => Boolean(value),
         ),
         switchMap((value) =>
           value.mode === 'TEMPLATE'
             ? this.#appsService.createAppFromTemplate(value)
-            : this.#appsService.createApp(value)
+            : this.#appsService.createApp(value),
         ),
         tap(() =>
           this.#toastService.add({
             severity: 'success',
             summary: 'Success',
             detail: 'The app has been created',
-          })
+          }),
         ),
-        switchMap((app) => this.#router.navigate(['/apps', app.id]))
+        switchMap((app) => this.#router.navigate(['/apps', app.id])),
       )
       .subscribe();
   }

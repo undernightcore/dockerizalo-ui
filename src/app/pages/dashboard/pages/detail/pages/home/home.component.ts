@@ -2,10 +2,12 @@ import {
   Component,
   ElementRef,
   ViewChild,
+  computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormGroup,
@@ -23,7 +25,16 @@ import { PanelModule } from 'primeng/panel';
 import { SelectModule } from 'primeng/select';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TooltipModule } from 'primeng/tooltip';
-import { combineLatest, filter, map, startWith, switchMap, tap } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  of,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs';
+import { AuthService } from '../../../../../../services/auth/auth.service';
 import { TokensService } from '../../../../../../services/tokens/tokens.service';
 import { elementReady } from '../../../../../../utils/dom.utils';
 import { removeTerminalCodes } from '../../../../../../utils/terminal.utils';
@@ -52,6 +63,7 @@ export class HomeComponent {
   @ViewChild('logElement') private logElement?: ElementRef<HTMLDivElement>;
 
   #appManager = inject(AppManagerService);
+  #authService = inject(AuthService);
   #tokenService = inject(TokensService);
   #toastService = inject(MessageService);
 
@@ -86,7 +98,7 @@ export class HomeComponent {
   ];
 
   app = toSignal(
-    this.#appManager.app$.pipe(tap((app) => this.appForm.patchValue(app)))
+    this.#appManager.app$.pipe(tap((app) => this.appForm.patchValue(app))),
   );
 
   deployment = toSignal(
@@ -99,13 +111,32 @@ export class HomeComponent {
               this.logElement?.nativeElement.scroll({
                 top: this.logElement.nativeElement.scrollHeight,
               }),
-            100
-          )
-      )
-    )
+            100,
+          ),
+      ),
+    ),
   );
 
-  tokens = toSignal(this.#tokenService.getTokens());
+  user = toSignal(this.#authService.user$);
+  admin = computed(() => this.user()?.role === 'ADMIN');
+
+  tokens = toSignal(
+    toObservable(this.admin).pipe(
+      switchMap((isAdmin) =>
+        isAdmin ? this.#tokenService.getTokens() : of([]),
+      ),
+    ),
+  );
+
+  _disableTokenFieldEffect = effect(() => {
+    const tokenControl = this.appForm.controls.tokenId;
+
+    if (this.admin()) {
+      tokenControl.enable({ emitEvent: false });
+    } else {
+      tokenControl.disable({ emitEvent: false });
+    }
+  });
 
   logsLimit = toSignal(this.#appManager.logsLimit$, { requireSync: true });
 
@@ -120,16 +151,19 @@ export class HomeComponent {
               this.logElement?.nativeElement.scroll({
                 top: this.logElement.nativeElement.scrollHeight,
               }),
-            100
-          )
-      )
-    )
+            100,
+          ),
+      ),
+    ),
   );
 
   saving = signal(false);
   unsaved = toSignal(
     combineLatest([
-      this.appForm.valueChanges.pipe(startWith(this.appForm.value)),
+      this.appForm.valueChanges.pipe(
+        startWith(true),
+        map(() => this.appForm.getRawValue()),
+      ),
       this.#appManager.app$,
     ]).pipe(
       map(
@@ -142,9 +176,9 @@ export class HomeComponent {
           (form.image || null) !== (app.image || null) ||
           (form.contextPath || null) !== (app.contextPath || null) ||
           (form.filePath || null) !== (app.filePath || null) ||
-          (form.tokenId || null) !== (app.tokenId || null)
-      )
-    )
+          (form.tokenId || null) !== (app.tokenId || null),
+      ),
+    ),
   );
 
   _scrollToBottomIfFollowEnabledEffect = toSignal(
@@ -156,11 +190,11 @@ export class HomeComponent {
           tap(() =>
             this.logElement?.nativeElement.scroll({
               top: this.logElement.nativeElement.scrollHeight,
-            })
-          )
-        )
-      )
-    )
+            }),
+          ),
+        ),
+      ),
+    ),
   );
 
   _enableModeFieldsEffect = toSignal(
@@ -180,24 +214,26 @@ export class HomeComponent {
           this.appForm.controls.contextPath.disable();
           this.appForm.controls.filePath.disable();
         }
-      })
-    )
+      }),
+    ),
   );
 
   saveApp() {
     if (!this.appForm.valid) return;
 
+    const form = this.appForm.getRawValue();
+
     this.#appManager
       .updateApp({
-        name: String(this.appForm.value.name),
-        mode: this.appForm.value.mode as 'REPOSITORY' | 'IMAGE',
-        description: this.appForm.value.description || null,
-        branch: this.appForm.value.branch || null,
-        repository: this.appForm.value.repository || null,
-        image: this.appForm.value.image || null,
-        contextPath: this.appForm.value.contextPath || undefined,
-        filePath: this.appForm.value.filePath || undefined,
-        tokenId: this.appForm.value.tokenId || null,
+        name: String(form.name),
+        mode: form.mode as 'REPOSITORY' | 'IMAGE',
+        description: form.description || null,
+        branch: form.branch || null,
+        repository: form.repository || null,
+        image: form.image || null,
+        contextPath: form.contextPath || undefined,
+        filePath: form.filePath || undefined,
+        tokenId: form.tokenId || null,
       })
       .pipe(
         tap({
@@ -209,7 +245,7 @@ export class HomeComponent {
               summary: 'Success',
               detail: 'The app has been saved',
             }),
-        })
+        }),
       )
       .subscribe();
   }
