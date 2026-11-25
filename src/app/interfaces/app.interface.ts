@@ -11,7 +11,7 @@ export interface RepositoryAppInterface {
   status: string;
   contextPath?: string;
   filePath?: string;
-  tokenId: string | null;
+  tokenId?: string | null;
 }
 
 export interface ImageAppInterface {
@@ -25,7 +25,7 @@ export interface ImageAppInterface {
   status: string;
   contextPath: null;
   filePath: null;
-  tokenId: string | null;
+  tokenId?: string | null;
 }
 
 export interface AppFromTemplateRequestInterface {

@@ -42,7 +42,7 @@
     } @else {
       <div class="apps__empty">
         <i class="pi pi-box"></i>
-        @if (isAdmin()) {
+        @if (admin()) {
           <span>Create your first app to start!</span>
           <p-button
             (click)="createApp()"

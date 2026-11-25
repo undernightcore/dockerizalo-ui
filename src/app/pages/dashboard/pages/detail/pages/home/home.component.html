@@ -1,218 +1,225 @@
 <div class="home">
   <h1>Home</h1>
   <div class="home__content">
-    @if (app()) { @if (app()?.status === 'running') {
-    <p-panel header="Warnings">
-      <div class="home__content__panel">
-        <p-message severity="warn"
-          >Any changes made to a running app require a full restart</p-message
-        >
-      </div>
-    </p-panel>
-    }
-    <p-panel header="Main settings">
-      <div class="home__content__panel">
-        <div class="home__content__panel__form">
-          <div>
-            <p-floatlabel variant="on">
-              <label for="name">Name</label>
-              <input
-                [formControl]="appForm.controls.name"
-                pInputText
-                id="name"
-              />
-            </p-floatlabel>
+    @if (app()) {
+      @if (app()?.status === "running") {
+        <p-panel header="Warnings">
+          <div class="home__content__panel">
+            <p-message severity="warn"
+              >Any changes made to a running app require a full
+              restart</p-message
+            >
           </div>
-          <div>
-            <p-floatlabel variant="on">
-              <label for="description">Description</label>
-              <input
-                [formControl]="appForm.controls.description"
-                pInputText
-                id="description"
-              />
-            </p-floatlabel>
-          </div>
-        </div>
-      </div>
-    </p-panel>
-    <p-panel header="Deploy from">
-      <div class="home__content__panel">
-        <div class="home__content__panel__form">
-          <div>
-            <p-button
-              label="Repository"
-              [severity]="
-                appForm.controls.mode.value === 'REPOSITORY'
-                  ? 'primary'
-                  : 'secondary'
-              "
-              (click)="appForm.controls.mode.setValue('REPOSITORY')"
-              icon="pi pi-cloud-download"
-            ></p-button>
-          </div>
-          <div>
-            <p-button
-              label="Image"
-              [severity]="
-                appForm.controls.mode.value === 'IMAGE'
-                  ? 'primary'
-                  : 'secondary'
-              "
-              (click)="appForm.controls.mode.setValue('IMAGE')"
-              icon="pi pi-box"
-            ></p-button>
-          </div>
-        </div>
-      </div>
-    </p-panel>
-    @if (appForm.controls.mode.value === 'REPOSITORY') {
-    <p-panel header="Repository settings">
-      <div class="home__content__panel">
-        <div class="home__content__panel__form">
-          <div>
-            <p-floatlabel variant="on">
-              <label for="repository">URL</label>
-              <input
-                [formControl]="appForm.controls.repository"
-                pInputText
-                id="repository"
-              />
-            </p-floatlabel>
-          </div>
-          <div>
-            <p-floatlabel variant="on">
-              <label for="branch">Branch</label>
-              <input
-                [formControl]="appForm.controls.branch"
-                pInputText
-                id="branch"
-              />
-            </p-floatlabel>
-          </div>
-          <div>
-            <p-floatlabel variant="on">
-              <p-select
-                [showClear]="true"
-                optionValue="id"
-                optionLabel="name"
-                [options]="tokens()"
-                [formControl]="appForm.controls.tokenId"
-                id="tokenId"
-              ></p-select>
-              <label for="tokenId">Token</label>
-            </p-floatlabel>
-          </div>
-        </div>
-      </div>
-    </p-panel>
-    <p-panel header="Dockerfile settings">
-      <div class="home__content__panel">
-        <div class="home__content__panel__form">
-          <div>
-            <p-floatlabel variant="on">
-              <label for="contextPath">Dockerfile context</label>
-              <input
-                [formControl]="appForm.controls.contextPath"
-                pInputText
-                id="contextPath"
-                pTooltip="COPY and ADD commands inside your Dockerfile are relative to this"
-                tooltipPosition="bottom"
-              />
-            </p-floatlabel>
-          </div>
-          <div>
-            <p-floatlabel variant="on">
-              <label for="filePath">Dockerfile path</label>
-              <input
-                [formControl]="appForm.controls.filePath"
-                pInputText
-                id="filePath"
-                pTooltip="The path to your Dockerfile"
-                tooltipPosition="bottom"
-              />
-            </p-floatlabel>
-          </div>
-        </div>
-        <p-message severity="info"
-          >The directory "/" is the root of the cloned repository</p-message
-        >
-      </div>
-    </p-panel>
-    } @else if (appForm.controls.mode.value === 'IMAGE') {
-    <p-panel header="Image settings">
-      <div class="home__content__panel">
-        <div class="home__content__panel__form">
-          <div>
-            <p-floatlabel variant="on">
-              <label for="image">Image</label>
-              <input
-                [formControl]="appForm.controls.image"
-                pInputText
-                id="image"
-              />
-            </p-floatlabel>
-          </div>
-          <div>
-            <p-floatlabel variant="on">
-              <p-select
-                [showClear]="true"
-                optionValue="id"
-                optionLabel="name"
-                [options]="tokens()"
-                [formControl]="appForm.controls.tokenId"
-                id="tokenId"
-              ></p-select>
-              <label for="tokenId">Token</label>
-            </p-floatlabel>
-          </div>
-        </div>
-      </div>
-    </p-panel>
-    }
-    <div class="home__content__actions">
-      <p-button
-        (click)="saveApp()"
-        [disabled]="!appForm.valid || saving() || !unsaved()"
-        >Save</p-button
-      >
-      @if (unsaved()) {
-      <span>There are unsaved changes</span>
+        </p-panel>
       }
-    </div>
-    } @else {
-    <p-skeleton height="190.5px"></p-skeleton>
-    } @if (logs()) {
-    <p-panel header="Logs">
-      <div class="home__content__header">
-        <div class="home__content__header__follow">
-          <p-checkbox
-            [formControl]="followForm"
-            [binary]="true"
-            inputId="follow"
-          />
-          <label for="follow">Follow logs</label>
+      <p-panel header="Main settings">
+        <div class="home__content__panel">
+          <div class="home__content__panel__form">
+            <div>
+              <p-floatlabel variant="on">
+                <label for="name">Name</label>
+                <input
+                  [formControl]="appForm.controls.name"
+                  pInputText
+                  id="name"
+                />
+              </p-floatlabel>
+            </div>
+            <div>
+              <p-floatlabel variant="on">
+                <label for="description">Description</label>
+                <input
+                  [formControl]="appForm.controls.description"
+                  pInputText
+                  id="description"
+                />
+              </p-floatlabel>
+            </div>
+          </div>
         </div>
-        <div class="home__content__header__limit">
-          <label for="limit">Limit to</label>
-          <p-select
-            [ngModel]="logsLimit()"
-            (ngModelChange)="limitLogs($event)"
-            [options]="limitOptions"
-            optionLabel="label"
-            optionValue="value"
-            inputId="limit"
-            size="small"
-          ></p-select>
+      </p-panel>
+      <p-panel header="Deploy from">
+        <div class="home__content__panel">
+          <div class="home__content__panel__form">
+            <div>
+              <p-button
+                label="Repository"
+                [severity]="
+                  appForm.controls.mode.value === 'REPOSITORY'
+                    ? 'primary'
+                    : 'secondary'
+                "
+                (click)="appForm.controls.mode.setValue('REPOSITORY')"
+                icon="pi pi-cloud-download"
+              ></p-button>
+            </div>
+            <div>
+              <p-button
+                label="Image"
+                [severity]="
+                  appForm.controls.mode.value === 'IMAGE'
+                    ? 'primary'
+                    : 'secondary'
+                "
+                (click)="appForm.controls.mode.setValue('IMAGE')"
+                icon="pi pi-box"
+              ></p-button>
+            </div>
+          </div>
         </div>
+      </p-panel>
+      @if (appForm.controls.mode.value === "REPOSITORY") {
+        <p-panel header="Repository settings">
+          <div class="home__content__panel">
+            <div class="home__content__panel__form">
+              <div>
+                <p-floatlabel variant="on">
+                  <label for="repository">URL</label>
+                  <input
+                    [formControl]="appForm.controls.repository"
+                    pInputText
+                    id="repository"
+                  />
+                </p-floatlabel>
+              </div>
+              <div>
+                <p-floatlabel variant="on">
+                  <label for="branch">Branch</label>
+                  <input
+                    [formControl]="appForm.controls.branch"
+                    pInputText
+                    id="branch"
+                  />
+                </p-floatlabel>
+              </div>
+              @if (admin()) {
+                <div>
+                  <p-floatlabel variant="on">
+                    <p-select
+                      [showClear]="true"
+                      optionValue="id"
+                      optionLabel="name"
+                      [options]="tokens()"
+                      [formControl]="appForm.controls.tokenId"
+                      id="tokenId"
+                    ></p-select>
+                    <label for="tokenId">Token</label>
+                  </p-floatlabel>
+                </div>
+              }
+            </div>
+          </div>
+        </p-panel>
+        <p-panel header="Dockerfile settings">
+          <div class="home__content__panel">
+            <div class="home__content__panel__form">
+              <div>
+                <p-floatlabel variant="on">
+                  <label for="contextPath">Dockerfile context</label>
+                  <input
+                    [formControl]="appForm.controls.contextPath"
+                    pInputText
+                    id="contextPath"
+                    pTooltip="COPY and ADD commands inside your Dockerfile are relative to this"
+                    tooltipPosition="bottom"
+                  />
+                </p-floatlabel>
+              </div>
+              <div>
+                <p-floatlabel variant="on">
+                  <label for="filePath">Dockerfile path</label>
+                  <input
+                    [formControl]="appForm.controls.filePath"
+                    pInputText
+                    id="filePath"
+                    pTooltip="The path to your Dockerfile"
+                    tooltipPosition="bottom"
+                  />
+                </p-floatlabel>
+              </div>
+            </div>
+            <p-message severity="info"
+              >The directory "/" is the root of the cloned repository</p-message
+            >
+          </div>
+        </p-panel>
+      } @else if (appForm.controls.mode.value === "IMAGE") {
+        <p-panel header="Image settings">
+          <div class="home__content__panel">
+            <div class="home__content__panel__form">
+              <div>
+                <p-floatlabel variant="on">
+                  <label for="image">Image</label>
+                  <input
+                    [formControl]="appForm.controls.image"
+                    pInputText
+                    id="image"
+                  />
+                </p-floatlabel>
+              </div>
+              @if (admin()) {
+                <div>
+                  <p-floatlabel variant="on">
+                    <p-select
+                      [showClear]="true"
+                      optionValue="id"
+                      optionLabel="name"
+                      [options]="tokens()"
+                      [formControl]="appForm.controls.tokenId"
+                      id="tokenId"
+                    ></p-select>
+                    <label for="tokenId">Token</label>
+                  </p-floatlabel>
+                </div>
+              }
+            </div>
+          </div>
+        </p-panel>
+      }
+      <div class="home__content__actions">
+        <p-button
+          (click)="saveApp()"
+          [disabled]="!appForm.valid || saving() || !unsaved()"
+          >Save</p-button
+        >
+        @if (unsaved()) {
+          <span>There are unsaved changes</span>
+        }
       </div>
+    } @else {
+      <p-skeleton height="190.5px"></p-skeleton>
+    }
+    @if (logs()) {
+      <p-panel header="Logs">
+        <div class="home__content__header">
+          <div class="home__content__header__follow">
+            <p-checkbox
+              [formControl]="followForm"
+              [binary]="true"
+              inputId="follow"
+            />
+            <label for="follow">Follow logs</label>
+          </div>
+          <div class="home__content__header__limit">
+            <label for="limit">Limit to</label>
+            <p-select
+              [ngModel]="logsLimit()"
+              (ngModelChange)="limitLogs($event)"
+              [options]="limitOptions"
+              optionLabel="label"
+              optionValue="value"
+              inputId="limit"
+              size="small"
+            ></p-select>
+          </div>
+        </div>
 
-      <div #logElement class="home__content__logs">
-        <pre>{{ deployment() ?? logs() }}</pre>
-      </div>
-    </p-panel>
+        <div #logElement class="home__content__logs">
+          <pre>{{ deployment() ?? logs() }}</pre>
+        </div>
+      </p-panel>
     } @else {
-    <p-skeleton height="372px"></p-skeleton>
+      <p-skeleton height="372px"></p-skeleton>
     }
   </div>
 </div>

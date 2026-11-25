@@ -233,7 +233,7 @@ export class HomeComponent {
         image: form.image || null,
         contextPath: form.contextPath || undefined,
         filePath: form.filePath || undefined,
-        tokenId: form.tokenId || null,
+        ...(this.admin() ? { tokenId: form.tokenId || null } : {}),
       })
       .pipe(
         tap({
